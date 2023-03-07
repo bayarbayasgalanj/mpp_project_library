@@ -1,4 +1,4 @@
-package lab6;
+package data;
 
 import java.awt.Color;
 import java.awt.Font;
