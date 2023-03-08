@@ -65,10 +65,10 @@ public class TestData {
 		
 		// libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
 		// members.add(libraryMember);
-		System.out.println("--------"+addresses);
+		System.out.println("ADDRESS--------"+addresses);
 		DataAccessFacade.loadAddressMap(addresses);	
 	}
-	
+
 	//create library members
 	public void libraryMemberData() {
 		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));

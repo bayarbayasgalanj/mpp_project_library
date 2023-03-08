@@ -47,6 +47,15 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readAddressMap().keySet());
 		return retval;
 	}
+	@Override
+	public List<Address> allAddressObj() {
+		DataAccess da = new DataAccessFacade();
+		List<Address> retval = new ArrayList<>();
+		da.readAddressMap().forEach(
+            (key, value)
+                -> retval.add(value));
+		return retval;
+	}
 	
 	
 }

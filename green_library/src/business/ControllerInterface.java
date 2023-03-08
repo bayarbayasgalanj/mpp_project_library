@@ -11,5 +11,5 @@ public interface ControllerInterface {
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public List<String> allAddress();
-	
+	public List<Address> allAddressObj();
 }

@@ -59,6 +59,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
 		middlePanel.setLayout(fl);
 		textArea = new TextArea(8, 20);
+        textArea.setBounds(getBounds());
 		//populateTextArea();
 		middlePanel.add(textArea);
 		
