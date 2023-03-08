@@ -25,6 +25,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
+	JMenu book_menus;
+	JMenu author_menus;
+	JMenu checkout_menus;
+	JMenu member_menus;
     JMenuItem login, allBookIds, allMemberIds; 
     String pathToImage;
     private boolean isInitialized = false;
@@ -82,17 +86,27 @@ public class LibrarySystem extends JFrame implements LibWindow {
     }
     
     private void addMenuItems() {
-       options = new JMenu("Options");  
- 	   menuBar.add(options);
- 	   login = new JMenuItem("Login");
- 	   login.addActionListener(new LoginListener());
- 	   allBookIds = new JMenuItem("All Book Ids");
- 	   allBookIds.addActionListener(new AllBookIdsListener());
- 	   allMemberIds = new JMenuItem("All Member Ids");
- 	   allMemberIds.addActionListener(new AllMemberIdsListener());
- 	   options.add(login);
- 	   options.add(allBookIds);
- 	   options.add(allMemberIds);
+		book_menus = new JMenu("Book");
+		
+		author_menus = new JMenu("Author");
+		checkout_menus = new JMenu("Checkout");
+		options = new JMenu("Login");
+		member_menus = new JMenu("Member");
+		menuBar.add(options);
+		menuBar.add(author_menus);
+		menuBar.add(book_menus);
+		menuBar.add(member_menus);
+		menuBar.add(checkout_menus);
+		login = new JMenuItem("Login");
+		login.addActionListener(new LoginListener());
+		allBookIds = new JMenuItem("All Books");
+		allBookIds.addActionListener(new AllBookIdsListener());
+		allMemberIds = new JMenuItem("All Members");
+		allMemberIds.addActionListener(new AllMemberIdsListener());
+		
+		options.add(login);
+		book_menus.add(allBookIds);
+		member_menus.add(allMemberIds);
     }
     
     class LoginListener implements ActionListener {
