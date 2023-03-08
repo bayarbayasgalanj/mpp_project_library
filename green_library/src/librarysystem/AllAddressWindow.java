@@ -46,6 +46,10 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		isInitialized = true;
 	}
 	
+    public void clearData() {
+		textArea.setText("");
+	}
+
 	public void defineTopPanel() {
 		topPanel = new JPanel();
 		JLabel AllIDsLabel = new JLabel("All Address");
@@ -56,10 +60,10 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 	
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
 		middlePanel.setLayout(fl);
-		textArea = new TextArea(8, 20);
-        textArea.setBounds(getBounds());
+		textArea = new TextArea(15, 40);
+        // textArea.setBounds(getBounds());
 		//populateTextArea();
 		middlePanel.add(textArea);
 		
@@ -79,7 +83,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
-    		
+    		// clearData();
 		}
 	}
 	
