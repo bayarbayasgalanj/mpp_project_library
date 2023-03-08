@@ -26,6 +26,7 @@ public class TestData {
 		TestData td = new TestData();
 		td.bookData();
 		td.libraryMemberData();
+		td.addressesData();
 		td.userData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
@@ -33,7 +34,10 @@ public class TestData {
 		System.out.println(da.readUserMap());
 		System.out.println("++++++++++++++");
 		System.out.println(da.readMemberMap());
+		System.out.println("++++++++++++++");
+		System.out.println(da.readAddressMap());
 	}
+	
 	///create books
 	public void bookData() {
 		allBooks.get(0).addCopy();
@@ -47,6 +51,22 @@ public class TestData {
 	
 	public void userData() {
 		DataAccessFacade.loadUserMap(allUsers);
+	}
+	
+	public void addressesData(){
+		// public Address(String street, String city, String state, String zip) {
+		// Address addr = new Address("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
+		// members.add(libraryMember);
+		// libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5));
+		// members.add(libraryMember);
+		
+		// libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6));
+		// members.add(libraryMember);
+		
+		// libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
+		// members.add(libraryMember);
+		System.out.println("--------"+addresses);
+		DataAccessFacade.loadAddressMap(addresses);	
 	}
 	
 	//create library members

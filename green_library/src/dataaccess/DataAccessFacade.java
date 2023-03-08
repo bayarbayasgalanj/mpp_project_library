@@ -12,13 +12,14 @@ import java.util.List;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
+import business.Address;
 import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, ADDRESS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -49,6 +50,13 @@ public class DataAccessFacade implements DataAccess {
 				StorageType.MEMBERS);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public HashMap<String, Address> readAddressMap() {
+		//Returns a Map with name/value pairs being
+		//   memberId -> ADDRESS
+		return (HashMap<String, Address>) readFromStorage(
+				StorageType.ADDRESS);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
@@ -77,6 +85,11 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
+	}
+	static void loadAddressMap(List<Address> addrList) {
+		HashMap<String, Address> addrs = new HashMap<String, Address>();
+		addrList.forEach(addr -> addrs.put(addr.getId(), addr));
+		saveToStorage(StorageType.ADDRESS, addrs);
 	}
 	
 	static void saveToStorage(StorageType type, Object ob) {
