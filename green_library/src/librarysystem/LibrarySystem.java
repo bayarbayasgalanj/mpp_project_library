@@ -29,7 +29,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JMenu author_menus;
 	JMenu checkout_menus;
 	JMenu member_menus;
-    JMenuItem login, allBookIds, allMemberIds; 
+	JMenu address_menus;
+	JMenuItem author_menu, add_author_menu, address_menu, add_address_menu, login, allBookIds, allMemberIds, add_member_menu, checkout_menu, checkout_record, book_copy; 
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -87,26 +88,42 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     private void addMenuItems() {
 		book_menus = new JMenu("Book");
-		
+		address_menus  = new JMenu("Address");
+		address_menu = new JMenuItem("Address list");
+		add_address_menu = new JMenuItem("Add Address");
 		author_menus = new JMenu("Author");
+		author_menu = new JMenuItem("Author list");
+		add_author_menu = new JMenuItem("Add Author");
 		checkout_menus = new JMenu("Checkout");
 		options = new JMenu("Login");
 		member_menus = new JMenu("Member");
+		checkout_menu = new JMenuItem("Checkout");
+		checkout_record = new JMenuItem("Checkout record");
+		book_copy = new JMenuItem("Book copy");
+		author_menus.add(author_menu);
+		author_menus.add(add_author_menu);
+		address_menus.add(address_menu);
+		address_menus.add(add_address_menu);
+		checkout_menus.add(checkout_menu);
+		checkout_menus.add(checkout_record);
 		menuBar.add(options);
 		menuBar.add(author_menus);
 		menuBar.add(book_menus);
 		menuBar.add(member_menus);
 		menuBar.add(checkout_menus);
+		menuBar.add(address_menus);
 		login = new JMenuItem("Login");
 		login.addActionListener(new LoginListener());
 		allBookIds = new JMenuItem("All Books");
 		allBookIds.addActionListener(new AllBookIdsListener());
 		allMemberIds = new JMenuItem("All Members");
 		allMemberIds.addActionListener(new AllMemberIdsListener());
-		
+		add_member_menu = new JMenuItem("Add member");
 		options.add(login);
 		book_menus.add(allBookIds);
+		book_menus.add(book_copy);
 		member_menus.add(allMemberIds);
+		member_menus.add(add_member_menu);
     }
     
     class LoginListener implements ActionListener {
