@@ -14,13 +14,14 @@ import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
 import business.Address;
+import business.Author;
 import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD;
+		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD, AUTHOR;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -29,6 +30,27 @@ public class DataAccessFacade implements DataAccess {
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
 	//implement: other save operations
+	@Override
+	public void saveNewAuthor(Author author) {
+		HashMap<String, Author> authors = readAuthorMap();
+		String authorId = author.getAuthorId();
+		authors.put(authorId, author);
+		saveToStorage(StorageType.MEMBERS, authors);	
+	}
+	public void removeAuthor(String addr_key) {
+		HashMap<String, Author> addrs = readAuthorMap();
+		addrs.remove(addr_key);
+		saveToStorage(StorageType.AUTHOR, addrs);
+	}
+	public String getAuthorByKey(String author){
+		HashMap<String, Author> authors = readAuthorMap();
+		for (Map.Entry<String, Author> entry : authors.entrySet()) {
+			if (entry.getValue().getAuthorId().equals(author)){
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
@@ -79,6 +101,13 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public HashMap<String, Author> readAuthorMap() {
+		//Returns a Map with name/value pairs being
+		return (HashMap<String, Author>) readFromStorage(
+				StorageType.AUTHOR);
+	}
+
+	@SuppressWarnings("unchecked")
 	public HashMap<String, Address> readAddressMap() {
 		//Returns a Map with name/value pairs being
 		//   memberId -> ADDRESS
@@ -93,10 +122,8 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
 	
-	
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
-	
 		
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
@@ -119,7 +146,11 @@ public class DataAccessFacade implements DataAccess {
 		addrList.forEach(addr -> addrs.put(addr.getId(), addr));
 		saveToStorage(StorageType.ADDRESS, addrs);
 	}
-	
+	static void loadAuthorMap(List<Author> addrList) {
+		HashMap<String, Author> addrs = new HashMap<String, Author>();
+		addrList.forEach(addr -> addrs.put(addr.getAuthorId(), addr));
+		saveToStorage(StorageType.AUTHOR, addrs);
+	}
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
 		try {
@@ -186,5 +217,4 @@ public class DataAccessFacade implements DataAccess {
 		}
 		private static final long serialVersionUID = 5399827794066637059L;
 	}
-	
 }

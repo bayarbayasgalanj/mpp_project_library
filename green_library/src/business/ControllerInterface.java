@@ -15,4 +15,7 @@ public interface ControllerInterface {
 	public List<Address> allAddressObj();
 	public List<CheckoutRecord> allCheckoutRecord();
 	public HashMap<String, String> allAddressHashmap();
+	public List<String> allAuthors();
+	public List<Author> allAuthorsObj();
+	
 }

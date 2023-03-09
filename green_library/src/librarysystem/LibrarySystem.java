@@ -43,7 +43,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllAddressWindow.INSTANCE,
 		AddAddressWindow.INSTANCE,
 		AllCheckoutRecord.INSTANCE,
-		AddCheckoutWindow.INSTANCE
+		AddCheckoutWindow.INSTANCE,
+		AllAuthorWindow.INSTANCE,
+		AddAuthorWindow.INSTANCE,
 	};
     	
 	public static void hideAllWindows() {		
@@ -128,7 +130,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		checkout_record.addActionListener(new AllCheckoutListener());
 		checkout_menu.addActionListener(new AddCheckoutListener());
 		add_address_menu.addActionListener(new AddAddressListener());
-
+		author_menu.addActionListener(new AllAuthorListener());
+		add_author_menu.addActionListener(new AddAuthorListener());
+		
 		add_member_menu = new JMenuItem("Add member");
 		options.add(login);
 		book_menus.add(allBookIds);
@@ -136,21 +140,37 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		member_menus.add(allMemberIds);
 		member_menus.add(add_member_menu);
     }
-    
+    class AllAuthorListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AllAuthorWindow.INSTANCE.init();
+			AllAuthorWindow.INSTANCE.pack();
+			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			Util.centerFrameOnDesktop(AllAuthorWindow.INSTANCE);
+			AllAuthorWindow.INSTANCE.setVisible(true);
+		}
+    }
+	class AddAuthorListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddAuthorWindow.INSTANCE.init();
+			AddAuthorWindow.INSTANCE.pack();
+			Util.centerFrameOnDesktop(AddAuthorWindow.INSTANCE);
+			AddAuthorWindow.INSTANCE.setVisible(true);
+		}
+    }
     class LoginListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
 			LoginWindow.INSTANCE.init();
 			Util.centerFrameOnDesktop(LoginWindow.INSTANCE);
 			LoginWindow.INSTANCE.setVisible(true);
-			
 		}
-    	
     }
     class AllBookIdsListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
@@ -167,9 +187,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			//AllBookIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
 			AllBookIdsWindow.INSTANCE.setVisible(true);
-			
 		}
-    	
     }
     
     class AllMemberIdsListener implements ActionListener {
@@ -222,10 +240,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			LibrarySystem.hideAllWindows();
 			AllCheckoutRecord.INSTANCE.init();
 			AllCheckoutRecord.INSTANCE.setVisible(true);
-			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
-			
 			AllCheckoutRecord.INSTANCE.pack();
-
 			Util.centerFrameOnDesktop(AllCheckoutRecord.INSTANCE);
 			AllCheckoutRecord.INSTANCE.setVisible(true);
 		}

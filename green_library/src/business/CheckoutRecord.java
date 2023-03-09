@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* Immutable */
-final public class CheckoutRecord 
-implements Serializable 
-{
+final public class CheckoutRecord implements Serializable {
 	
 	private static final long serialVersionUID = 891234800414574886L;
 	public static List<String> record_datas = new ArrayList<String>() {

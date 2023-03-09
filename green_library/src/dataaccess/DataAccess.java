@@ -3,6 +3,7 @@ package dataaccess;
 import java.util.HashMap;
 
 import business.Address;
+import business.Author;
 import business.Book;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
@@ -16,4 +17,8 @@ public interface DataAccess {
 	public void saveNewAddress(Address addr); 
 	public void removeAddress(String addr_key); 
 	public String getAddressByKey(String addr); 
+	public void saveNewAuthor(Author author); 
+	public void removeAuthor(String addr_key); 
+	public String getAuthorByKey(String addr); 
+	public HashMap<String, Author> readAuthorMap();
 }

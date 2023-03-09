@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import business.Address;
+import business.Author;
 import business.ControllerInterface;
 import business.SystemController;
 import dataaccess.DataAccess;
@@ -27,9 +28,9 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class AllAddressWindow extends JFrame implements LibWindow {
+public class AllAuthorWindow extends JFrame implements LibWindow {
 	private static final long serialVersionUID = 1L;
-	public static final AllAddressWindow INSTANCE = new AllAddressWindow();
+	public static final AllAuthorWindow INSTANCE = new AllAuthorWindow();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
 	
@@ -38,7 +39,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
     //Singleton class
-	private AllAddressWindow() {}
+	private AllAuthorWindow() {}
 	
 	public void init() {
 		mainPanel = new JPanel();
@@ -55,7 +56,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 	
     public void defineTopPanel() {
 		topPanel = new JPanel();
-		JLabel AllIDsLabel = new JLabel("All Address");
+		JLabel AllIDsLabel = new JLabel("All Author");
 		Util.adjustLabelFont(AllIDsLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		topPanel.add(AllIDsLabel);
@@ -76,17 +77,17 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		middlePanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
 		middlePanel.setLayout(fl);
-        JList<String> addrrs_list;
-		List<Address> ids = ci.allAddressObj();
+        JList<String> author_list;
+		List<Author> ids = ci.allAuthorsObj();
         DefaultListModel<String> model = new DefaultListModel<>();
-        System.out.println("Address Len:"+ids.size());
-        for(Address s: ids) {
+        System.out.println("Author Len:"+ids.size());
+        for(Author s: ids) {
             String ss = s.toString();
             model.addElement(ss);
         }
-        addrrs_list = new JList<String>(model);
-        addrrs_list.setCellRenderer(new NumberedListCellRenderer());
-		middlePanel.add(new JScrollPane(addrrs_list));
+        author_list = new JList<String>(model);
+        author_list.setCellRenderer(new NumberedListCellRenderer());
+		middlePanel.add(new JScrollPane(author_list));
 
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
@@ -96,13 +97,11 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 
         JButton deleteButton = new JButton("Delete Select Item");
 		deleteButton.addActionListener(evt ->{
-			if (addrrs_list.getSelectedValue()!=null){
+			if (author_list.getSelectedValue()!=null){
                 DataAccess da = new DataAccessFacade();
-                String addr_key = da.getAddressByKey(addrrs_list.getSelectedValue());
-                if (addr_key!=null){
-                    da.removeAddress(addr_key);
-					defineLowerPanel();
-					middlePanel.repaint();
+                String author_key = da.getAuthorByKey(author_list.getSelectedValue());
+                if (author_key!=null){
+                    da.removeAuthor(author_key);
                 }
 			}
 		});

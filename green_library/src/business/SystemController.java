@@ -75,5 +75,20 @@ public class SystemController implements ControllerInterface {
                 -> retval.put(key, value.toString()));
 		return retval;
 	}
-	
+	@Override
+	public List<String> allAuthors() {
+		DataAccess da = new DataAccessFacade();
+		List<String> retval = new ArrayList<>();
+		retval.addAll(da.readAuthorMap().keySet());
+		return retval;
+	}
+	@Override
+	public List<Author> allAuthorsObj() {
+		DataAccess da = new DataAccessFacade();
+		List<Author> retval = new ArrayList<>();
+		da.readAuthorMap().forEach(
+            (key, value)
+                -> retval.add(value));
+		return retval;
+	}
 }

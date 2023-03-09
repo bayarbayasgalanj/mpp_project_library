@@ -38,4 +38,7 @@ public class Person implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	public String toString(){
+		return this.firstName+" "+this.lastName;
+	}
 }
