@@ -113,13 +113,15 @@ public class AddMemberWindow extends JFrame implements LibWindow
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Member");
         addBookButton.addActionListener(evt -> {
+			DataAccess da = new DataAccessFacade();
 			String fName = firstName.getText();
 			String lName = lastName.getText();
 			String phone = telephone.getText();
-			// String addr = address.getText();
-            String memId = memberId.getText();
-            LibraryMember member = new LibraryMember(memId, fName, lName, phone, null);
-			DataAccess da = new DataAccessFacade();
+			Address addr = da.getAddressByKeyObj((String)address_list.getSelectedItem());
+			System.out.println("--------"+addr);
+			String memId = memberId.getText();
+            LibraryMember member = new LibraryMember(memId, fName, lName, phone, addr);
+			
             da.saveNewMember(member);
             // clear
 			firstName.setText(null);

@@ -84,6 +84,15 @@ public class DataAccessFacade implements DataAccess {
 		}
 		return null;
 	}
+	public Address getAddressByKeyObj(String addr){
+		HashMap<String, Address> addrs = readAddressMap();
+		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
+			if (entry.getValue().getId().equals(addr)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being

@@ -16,7 +16,8 @@ public interface DataAccess {
 	public void saveNewMember(LibraryMember member); 
 	public void saveNewAddress(Address addr); 
 	public void removeAddress(String addr_key); 
-	public String getAddressByKey(String addr); 
+	public String getAddressByKey(String addr);
+	public Address getAddressByKeyObj(String addr);
 	public void saveNewAuthor(Author author); 
 	public void removeAuthor(String addr_key); 
 	public String getAuthorByKey(String addr); 
