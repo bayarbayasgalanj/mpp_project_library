@@ -42,6 +42,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllBookIdsWindow.INSTANCE,
 		AllAddressWindow.INSTANCE,
 		AddAddressWindow.INSTANCE,
+		AllCheckoutRecord.INSTANCE,
+		AddCheckoutWindow.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -123,6 +125,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		allMemberIds = new JMenuItem("All Members");
 		allMemberIds.addActionListener(new AllMemberIdsListener());
 		address_menu.addActionListener(new AllAddressListener());
+		checkout_record.addActionListener(new AllCheckoutListener());
+		checkout_menu.addActionListener(new AddCheckoutListener());
 		add_address_menu.addActionListener(new AddAddressListener());
 
 		add_member_menu = new JMenuItem("Add member");
@@ -203,13 +207,36 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
-
 			AllAddressWindow.INSTANCE.init();
 			AllAddressWindow.INSTANCE.pack();
 			AllAddressWindow.INSTANCE.setVisible(true);
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllAddressWindow.INSTANCE);
 			AllAddressWindow.INSTANCE.setVisible(true);
+		}
+    }
+	class AddCheckoutListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddCheckoutWindow.INSTANCE.init();
+			AddCheckoutWindow.INSTANCE.pack();
+			AddCheckoutWindow.INSTANCE.setVisible(true);
+			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			Util.centerFrameOnDesktop(AddCheckoutWindow.INSTANCE);
+			AddCheckoutWindow.INSTANCE.setVisible(true);
+		}
+    }
+	class AllCheckoutListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AllCheckoutRecord.INSTANCE.init();
+			AllCheckoutRecord.INSTANCE.pack();
+			AllCheckoutRecord.INSTANCE.setVisible(true);
+			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			Util.centerFrameOnDesktop(AllCheckoutRecord.INSTANCE);
+			AllCheckoutRecord.INSTANCE.setVisible(true);
 		}
     }
 	class AddAddressListener implements ActionListener {

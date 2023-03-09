@@ -13,5 +13,6 @@ public interface ControllerInterface {
 	public List<String> allBookIds();
 	public List<String> allAddress();
 	public List<Address> allAddressObj();
+	public List<CheckoutRecord> allCheckoutRecord();
 	public HashMap<String, String> allAddressHashmap();
 }

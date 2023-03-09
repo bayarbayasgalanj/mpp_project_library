@@ -20,7 +20,7 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS, ADDRESS;
+		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -41,6 +41,12 @@ public class DataAccessFacade implements DataAccess {
 		String addrId = addr.getId();
 		addrs.put(addrId, addr);
 		saveToStorage(StorageType.ADDRESS, addrs);	
+	}
+	public void saveNewOrder(Address addr) {
+		HashMap<String, Address> addrs = readAddressMap();
+		String addrId = addr.getId();
+		addrs.put(addrId, addr);
+		saveToStorage(StorageType.ORDERRECORD, addrs);	
 	}
 	public void removeAddress(String addr_key) {
 		HashMap<String, Address> addrs = readAddressMap();
