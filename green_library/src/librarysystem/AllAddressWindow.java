@@ -77,13 +77,13 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
 		middlePanel.setLayout(fl);
         JList<String> addrrs_list;
-		List<Address> ids = ci.allAddressObj();
-        DefaultListModel<String> model = new DefaultListModel<>();
-        System.out.println("Address Len:"+ids.size());
-        for(Address s: ids) {
-            String ss = s.toString();
-            model.addElement(ss);
-        }
+        List<Address> ids = ci.allAddressObj();
+		DefaultListModel<String> model = new DefaultListModel<>();
+		System.out.println("Address Len:"+ids.size());
+		for(Address s: ids) {
+			String ss = s.toString();
+			model.addElement(ss);
+		}
         addrrs_list = new JList<String>(model);
         addrrs_list.setCellRenderer(new NumberedListCellRenderer());
 		middlePanel.add(new JScrollPane(addrrs_list));

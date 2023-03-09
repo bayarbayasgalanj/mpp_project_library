@@ -23,36 +23,41 @@ public class SystemController implements ControllerInterface {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
 	}
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readMemberMap().keySet());
+		if (da.readMemberMap()!=null){
+			retval.addAll(da.readMemberMap().keySet());
+		}
 		return retval;
 	}
 	@Override
 	public List<LibraryMember> allMembersObs() {
 		DataAccess da = new DataAccessFacade();
 		List<LibraryMember> retval = new ArrayList<>();
-		da.readMemberMap().forEach(
-            (key, value)
-                -> retval.add(value));
+		if (da.readMemberMap()!=null){
+			da.readMemberMap().forEach((key, value) -> retval.add(value));
+		}
 		return retval;
 	}
 	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readBooksMap().keySet());
+		if (da.readBooksMap()!=null){
+			retval.addAll(da.readBooksMap().keySet());
+		}
 		return retval;
 	}
 	@Override
 	public List<String> allAddress() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readAddressMap().keySet());
+		if(da.readAddressMap()!=null) {
+			retval.addAll(da.readAddressMap().keySet());
+		}
 		return retval;
 	}
 	@Override
@@ -69,34 +74,36 @@ public class SystemController implements ControllerInterface {
 	public List<Address> allAddressObj() {
 		DataAccess da = new DataAccessFacade();
 		List<Address> retval = new ArrayList<>();
-		da.readAddressMap().forEach(
-            (key, value)
-                -> retval.add(value));
+		if(da.readAddressMap()!=null) {
+			da.readAddressMap().forEach((key, value) -> retval.add(value));
+		}
 		return retval;
 	}
 	@Override
 	public HashMap<String, String> allAddressHashmap() {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, String> retval = new HashMap<>();
-		da.readAddressMap().forEach(
-            (key, value)
-                -> retval.put(key, value.toString()));
+		if(da.readAddressMap()!=null) {
+			da.readAddressMap().forEach((key, value) -> retval.put(key, value.toString()));
+		}
 		return retval;
 	}
 	@Override
 	public List<String> allAuthors() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readAuthorMap().keySet());
+		if(da.readAuthorMap()!=null) {
+			retval.addAll(da.readAuthorMap().keySet());
+		}
 		return retval;
 	}
 	@Override
 	public List<Author> allAuthorsObj() {
 		DataAccess da = new DataAccessFacade();
 		List<Author> retval = new ArrayList<>();
-		da.readAuthorMap().forEach(
-            (key, value)
-                -> retval.add(value));
+		if(da.readAuthorMap()!=null) {
+			da.readAuthorMap().forEach((key, value) -> retval.add(value));
+		}
 		return retval;
 	}
 }

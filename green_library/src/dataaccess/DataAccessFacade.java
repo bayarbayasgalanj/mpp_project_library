@@ -78,7 +78,6 @@ public class DataAccessFacade implements DataAccess {
 	public String getAddressByKey(String addr){
 		HashMap<String, Address> addrs = readAddressMap();
 		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
-			String key = entry.getKey();
 			if (entry.getValue().getId().equals(addr)){
 				return entry.getKey();
 			}
@@ -89,37 +88,57 @@ public class DataAccessFacade implements DataAccess {
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being
 		//   isbn -> Book
-		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
+		Object retObj = readFromStorage(StorageType.BOOKS);
+		if (retObj==null){
+			return new HashMap<String, Book>();
+		}else{
+			return (HashMap<String, Book>) retObj;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, LibraryMember> readMemberMap() {
 		//Returns a Map with name/value pairs being
 		//   memberId -> LibraryMember
-		return (HashMap<String, LibraryMember>) readFromStorage(
-				StorageType.MEMBERS);
+		Object retObj = readFromStorage(StorageType.MEMBERS);
+		if (retObj==null){
+			return new HashMap<String, LibraryMember>();
+		}else{
+			return (HashMap<String, LibraryMember>) retObj;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Author> readAuthorMap() {
 		//Returns a Map with name/value pairs being
-		return (HashMap<String, Author>) readFromStorage(
-				StorageType.AUTHOR);
+		Object retObj = readFromStorage(StorageType.AUTHOR);
+		if (retObj==null){
+			return new HashMap<String, Author>();
+		}else{
+			return (HashMap<String, Author>) retObj;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Address> readAddressMap() {
-		//Returns a Map with name/value pairs being
-		//   memberId -> ADDRESS
-		return (HashMap<String, Address>) readFromStorage(
-				StorageType.ADDRESS);
+		Object retObj = readFromStorage(StorageType.ADDRESS);
+		if (retObj==null){
+			return new HashMap<String, Address>();
+		}else{
+			return (HashMap<String, Address>) retObj;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
 		//Returns a Map with name/value pairs being
 		//   userId -> User
-		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
+		Object retObj = readFromStorage(StorageType.USERS);
+		if (retObj==null){
+			return new HashMap<String, User>();
+		}else{
+			return (HashMap<String, User>) retObj;
+		}
 	}
 	
 	/////load methods - these place test data into the storage area
@@ -176,7 +195,7 @@ public class DataAccessFacade implements DataAccess {
 			in = new ObjectInputStream(Files.newInputStream(path));
 			retVal = in.readObject();
 		} catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		} finally {
 			if(in != null) {
 				try {
