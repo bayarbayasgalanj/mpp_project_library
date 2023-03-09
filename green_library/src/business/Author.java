@@ -14,7 +14,7 @@ final public class Author extends Person implements Serializable {
 	public Author(String f, String l, String t, Address a, String bio) {
 		super(f, l, t, a);
 		this.bio = bio;
-		this.authorId = f+l+t+a+bio;
+		this.authorId = f+" "+l;
 	}
 	public String toString(){
 		return this.getFirstName()+" "+this.getLastName()+" "+this.bio;

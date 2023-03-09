@@ -25,7 +25,7 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
-			+ "/src/dataaccess/storage"; //for Unix file system
+			+ "/green_library/src/dataaccess/storage"; //for Unix file system
 //			+ "\\src\\dataaccess\\storage"; //for Windows file system
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
@@ -35,7 +35,7 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, Author> authors = readAuthorMap();
 		String authorId = author.getAuthorId();
 		authors.put(authorId, author);
-		saveToStorage(StorageType.MEMBERS, authors);	
+		saveToStorage(StorageType.AUTHOR, authors);	
 	}
 	public void removeAuthor(String addr_key) {
 		HashMap<String, Author> addrs = readAuthorMap();
@@ -45,7 +45,8 @@ public class DataAccessFacade implements DataAccess {
 	public String getAuthorByKey(String author){
 		HashMap<String, Author> authors = readAuthorMap();
 		for (Map.Entry<String, Author> entry : authors.entrySet()) {
-			if (entry.getValue().getAuthorId().equals(author)){
+			String key = entry.getValue().getFirstName()+" "+entry.getValue().getLastName()+" "+entry.getValue().getBio();
+			if (key.equals(author)){
 				return entry.getKey();
 			}
 		}
