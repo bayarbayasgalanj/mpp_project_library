@@ -14,4 +14,6 @@ public interface DataAccess {
 	public HashMap<String, Address> readAddressMap();
 	public void saveNewMember(LibraryMember member); 
 	public void saveNewAddress(Address addr); 
+	public void removeAddress(String addr_key); 
+	public String getAddressByKey(String addr); 
 }

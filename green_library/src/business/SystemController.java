@@ -56,6 +56,14 @@ public class SystemController implements ControllerInterface {
                 -> retval.add(value));
 		return retval;
 	}
-	
+	@Override
+	public HashMap<String, String> allAddressHashmap() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, String> retval = new HashMap<>();
+		da.readAddressMap().forEach(
+            (key, value)
+                -> retval.put(key, value.toString()));
+		return retval;
+	}
 	
 }

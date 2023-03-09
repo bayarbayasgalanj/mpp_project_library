@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import business.Book;
 import business.BookCopy;
@@ -41,7 +42,22 @@ public class DataAccessFacade implements DataAccess {
 		addrs.put(addrId, addr);
 		saveToStorage(StorageType.ADDRESS, addrs);	
 	}
-
+	public void removeAddress(String addr_key) {
+		HashMap<String, Address> addrs = readAddressMap();
+		System.out.println("remove before size:"+addrs.size()+" "+addr_key);
+		addrs.remove(addr_key);
+		saveToStorage(StorageType.ADDRESS, addrs);	
+	}
+	public String getAddressByKey(String addr){
+		HashMap<String, Address> addrs = readAddressMap();
+		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
+			String key = entry.getKey();
+			if (entry.getValue().getId().equals(addr)){
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being

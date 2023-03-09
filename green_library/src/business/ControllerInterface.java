@@ -1,5 +1,6 @@
 package business;
 
+import java.util.HashMap;
 import java.util.List;
 
 import business.Book;
@@ -12,4 +13,5 @@ public interface ControllerInterface {
 	public List<String> allBookIds();
 	public List<String> allAddress();
 	public List<Address> allAddressObj();
+	public HashMap<String, String> allAddressHashmap();
 }
