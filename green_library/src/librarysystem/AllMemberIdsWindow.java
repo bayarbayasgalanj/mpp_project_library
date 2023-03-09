@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
 
 
@@ -25,15 +26,29 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
-	private TextArea textArea;
-	
+		
 	private AllMemberIdsWindow() {}
 	
 	public void init() {
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setLayout(new BorderLayout(65, 65));
 		defineTopPanel();
-		defineMiddlePanel();
+		// defineMiddlePanel();
+		TextArea textArea;
+		middlePanel = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 65, 35);
+		middlePanel.setLayout(fl);
+		textArea = new TextArea(10,30);
+		
+		List<LibraryMember> ids = ci.allMembersObs();
+		String sb = "";
+		for(LibraryMember s: ids) {
+			sb += s.toString() + "\n";
+		}
+		System.out.println(sb.toString());
+		textArea.setText(sb.toString());
+		middlePanel.add(textArea);
+
 		defineLowerPanel();
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);	
@@ -50,14 +65,9 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 		topPanel.add(AllIDsLabel);
 	}
 	
-	public void defineMiddlePanel() {
-		middlePanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
-		middlePanel.setLayout(fl);
-		textArea = new TextArea(8,20);
-		middlePanel.add(textArea);
+	// public void defineMiddlePanel() {
 		
-	}
+	// }
 	
 	public void defineLowerPanel() {
 		lowerPanel = new JPanel();
@@ -68,9 +78,9 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 		lowerPanel.add(backButton);
 	}
 	
-	public void setData(String data) {
-		textArea.setText(data);
-	}
+	// public void setData(String data) {
+	// 	textArea.setText(data);
+	// }
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 		   LibrarySystem.hideAllWindows();

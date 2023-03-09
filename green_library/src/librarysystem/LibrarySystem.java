@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import business.Address;
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
 
 
@@ -46,6 +47,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AddCheckoutWindow.INSTANCE,
 		AllAuthorWindow.INSTANCE,
 		AddAuthorWindow.INSTANCE,
+		AddMemberWindow.INSTANCE,
 	};
     	
 	public static void hideAllWindows() {		
@@ -125,6 +127,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		allBookIds.addActionListener(new AllBookIdsListener());
 		
 		allMemberIds = new JMenuItem("All Members");
+		add_member_menu = new JMenuItem("Add member");
+
 		allMemberIds.addActionListener(new AllMemberIdsListener());
 		address_menu.addActionListener(new AllAddressListener());
 		checkout_record.addActionListener(new AllCheckoutListener());
@@ -132,13 +136,23 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		add_address_menu.addActionListener(new AddAddressListener());
 		author_menu.addActionListener(new AllAuthorListener());
 		add_author_menu.addActionListener(new AddAuthorListener());
+		add_member_menu.addActionListener(new AddMemberListener());
 		
-		add_member_menu = new JMenuItem("Add member");
 		options.add(login);
 		book_menus.add(allBookIds);
 		book_menus.add(book_copy);
 		member_menus.add(allMemberIds);
 		member_menus.add(add_member_menu);
+    }
+	class AddMemberListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddMemberWindow.INSTANCE.init();
+			AddMemberWindow.INSTANCE.pack();
+			Util.centerFrameOnDesktop(AddMemberWindow.INSTANCE);
+			AddMemberWindow.INSTANCE.setVisible(true);
+		}
     }
     class AllAuthorListener implements ActionListener {
     	@Override
@@ -191,25 +205,16 @@ public class LibrarySystem extends JFrame implements LibWindow {
     }
     
     class AllMemberIdsListener implements ActionListener {
-
     	@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
 			AllMemberIdsWindow.INSTANCE.init();
 			AllMemberIdsWindow.INSTANCE.pack();
-			List<String> ids = ci.allMemberIds();
-			Collections.sort(ids);
-			StringBuilder sb = new StringBuilder();
-			for(String s: ids) {
-				sb.append(s + "\n");
-			}
-			System.out.println(sb.toString());
-			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
+			
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
 		}
-    	
     }
 
 	class AllAddressListener implements ActionListener {

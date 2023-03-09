@@ -17,5 +17,5 @@ public interface ControllerInterface {
 	public HashMap<String, String> allAddressHashmap();
 	public List<String> allAuthors();
 	public List<Author> allAuthorsObj();
-	
+	public List<LibraryMember> allMembersObs();
 }
