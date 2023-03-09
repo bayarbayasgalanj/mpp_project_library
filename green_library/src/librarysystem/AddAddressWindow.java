@@ -150,7 +150,6 @@ public class AddAddressWindow extends JFrame implements LibWindow {
         mainPanel.add(lowerPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel);
         isInitialized = true;
-        mainPanel.repaint();
     }
 
     class BackToMainListener implements ActionListener {

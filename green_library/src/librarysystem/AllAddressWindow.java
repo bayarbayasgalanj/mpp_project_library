@@ -83,9 +83,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
         }
         addrrs_list = new JList<String>(model);
         addrrs_list.setCellRenderer(new NumberedListCellRenderer());
-        middlePanel.repaint();
-        addrrs_list.repaint();
-        mainPanel.repaint();
+
 	}
     
     public class NumberedListCellRenderer extends DefaultListCellRenderer {

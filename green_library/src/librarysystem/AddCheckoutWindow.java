@@ -19,9 +19,10 @@ import business.*;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
-public class AddCheckoutWindow extends JFrame implements LibWindow {
+public class AddCheckoutWindow extends JFrame implements LibWindow 
+{
     public static final AddCheckoutWindow INSTANCE = new AddCheckoutWindow();
-    // ControllerInterface ci = new SystemController();
+	// ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
 
 	public JPanel getMainPanel() {
@@ -32,13 +33,7 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
 	
-	private JTextField orderNumber;
-	
-	public void clearData() {
-		orderNumber.setText("");
-	}
-	
-    public AddCheckoutWindow() {}
+	public AddCheckoutWindow() {}
 
 	public void defineTopPanel() {
 		topPanel = new JPanel();
@@ -62,9 +57,9 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		
         JLabel checkoutLabel = new JLabel("Order Number");
-		
+		JTextField orderNumber;
 		orderNumber = new JTextField(10);
-		orderNumber.setText("ttt");
+		// orderNumber.setText("ttt");
 		leftPanel.add(checkoutLabel);
 		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
 		
@@ -77,7 +72,7 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Order");
-		attachAddCheckoutButtonListener(addBookButton);
+		attachAddCheckoutButtonListener(addBookButton, orderNumber);
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);
@@ -91,20 +86,15 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
 		lowerPanel.add(backToMainButn);
 	}
-	private void attachAddCheckoutButtonListener(JButton butn) {
+	private void attachAddCheckoutButtonListener(JButton butn, JTextField orderNumber) {
 		butn.addActionListener(evt -> {
 			String oNumber = orderNumber.getText();
-			CheckoutRecord cRecord = new CheckoutRecord(oNumber);
-			// DataAccess da = new DataAccessFacade();
-            // da.saveNewAddress(addr);
-            clearData();
+			CheckoutRecord.addRecord(oNumber);
+			orderNumber.setText(null);
 	    });
 	}
 
-	public void updateData() {
-		// nothing to do
-	}
-    @Override
+	// @Override
     public void init() {
         mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -116,7 +106,6 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
         mainPanel.add(lowerPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel);
         isInitialized = true;
-        mainPanel.repaint();
     }
 
     class BackToMainListener implements ActionListener {

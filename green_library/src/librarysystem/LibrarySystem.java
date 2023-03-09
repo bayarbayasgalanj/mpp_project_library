@@ -179,12 +179,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			LibrarySystem.hideAllWindows();
 			AllMemberIdsWindow.INSTANCE.init();
 			AllMemberIdsWindow.INSTANCE.pack();
-			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
-			
-			LibrarySystem.hideAllWindows();
-			AllBookIdsWindow.INSTANCE.init();
-			
 			List<String> ids = ci.allMemberIds();
 			Collections.sort(ids);
 			StringBuilder sb = new StringBuilder();
@@ -193,12 +187,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			}
 			System.out.println(sb.toString());
 			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
-			AllMemberIdsWindow.INSTANCE.pack();
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
-			
 		}
     	
     }
@@ -221,8 +212,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			LibrarySystem.hideAllWindows();
 			AddCheckoutWindow.INSTANCE.init();
 			AddCheckoutWindow.INSTANCE.pack();
-			AddCheckoutWindow.INSTANCE.setVisible(true);
-			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AddCheckoutWindow.INSTANCE);
 			AddCheckoutWindow.INSTANCE.setVisible(true);
 		}
@@ -232,9 +221,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
 			AllCheckoutRecord.INSTANCE.init();
-			AllCheckoutRecord.INSTANCE.pack();
 			AllCheckoutRecord.INSTANCE.setVisible(true);
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			
+			AllCheckoutRecord.INSTANCE.pack();
+
 			Util.centerFrameOnDesktop(AllCheckoutRecord.INSTANCE);
 			AllCheckoutRecord.INSTANCE.setVisible(true);
 		}

@@ -38,8 +38,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
-    private JList<String> list_ids;
-	
+    
 	//Singleton class
 	private AllCheckoutRecord() {}
 	
@@ -66,27 +65,19 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 	}
 	
 	public void defineMiddlePanel() {
-		this.middlePanel = new JPanel();
+		middlePanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
-		this.middlePanel.setLayout(fl);
-        populateList();
-		this.middlePanel.add(new JScrollPane(list_ids));
-	}
-    
-	private void populateList() {
-        List<CheckoutRecord> ids = ci.allCheckoutRecord();
-        DefaultListModel<String> model = new DefaultListModel<>();
-        // System.out.println("Address Len:"+ids.size());
-        // for(Address s: ids) {
-        //     String ss = s.toString();
-        //     model.addElement(ss);
-        // }
-        list_ids = new JList<String>(model);
-        list_ids.setCellRenderer(new NumberedListCellRenderer());
-
-	}
-    
-    public class NumberedListCellRenderer extends DefaultListCellRenderer {
+		middlePanel.setLayout(fl);
+		List<String> titles = CheckoutRecord.record_datas;
+		DefaultListModel<String> model = new DefaultListModel<>();
+		for(String s: titles) {
+			model.addElement(s);
+		}
+		JList<String> list_ids = new JList<String>(model);
+		list_ids.setCellRenderer(new NumberedListCellRenderer());
+		middlePanel.add(new JScrollPane(list_ids));
+    }
+	public class NumberedListCellRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
