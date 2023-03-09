@@ -19,20 +19,25 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	public static final AllMemberIdsWindow INSTANCE = new AllMemberIdsWindow();
     ControllerInterface ci = new SystemController();
 	private boolean isInitialized = false;
-	public JPanel getMainPanel() {
-		return mainPanel;
-	}
-	private JPanel mainPanel;
-	private JPanel topPanel;
-	private JPanel middlePanel;
-	private JPanel lowerPanel;
-		
+	// public JPanel getMainPanel() {
+	// 	return mainPanel;
+	// }
 	private AllMemberIdsWindow() {}
 	
 	public void init() {
+		JPanel mainPanel;
+		JPanel topPanel;
+		JPanel middlePanel;
+		JPanel lowerPanel;
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout(65, 65));
-		defineTopPanel();
+		// defineTopPanel();
+		topPanel = new JPanel();
+		JLabel AllIDsLabel = new JLabel("All Members");
+		Util.adjustLabelFont(AllIDsLabel, Util.DARK_BLUE, true);
+		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		topPanel.add(AllIDsLabel);
 		// defineMiddlePanel();
 		TextArea textArea;
 		middlePanel = new JPanel();
@@ -49,34 +54,31 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 		textArea.setText(sb.toString());
 		middlePanel.add(textArea);
 
-		defineLowerPanel();
+		// defineLowerPanel();
+		lowerPanel = new JPanel();
+		FlowLayout fl2 = new FlowLayout(FlowLayout.LEFT);
+		lowerPanel.setLayout(fl2);
+		JButton backButton = new JButton("<== Back to Main");
+		addBackButtonListener(backButton);
+		lowerPanel.add(backButton);
+
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);	
 		mainPanel.add(lowerPanel, BorderLayout.SOUTH);
 		getContentPane().add(mainPanel);
 		isInitialized = true;
 	}
-	
-	public void defineTopPanel() {
-		topPanel = new JPanel();
-		JLabel AllIDsLabel = new JLabel("All Members");
-		Util.adjustLabelFont(AllIDsLabel, Util.DARK_BLUE, true);
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		topPanel.add(AllIDsLabel);
-	}
+	// public void defineTopPanel() {
+		
+	// }
 	
 	// public void defineMiddlePanel() {
 		
 	// }
 	
-	public void defineLowerPanel() {
-		lowerPanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
-		lowerPanel.setLayout(fl);
-		JButton backButton = new JButton("<== Back to Main");
-		addBackButtonListener(backButton);
-		lowerPanel.add(backButton);
-	}
+	// public void defineLowerPanel() {
+		
+	// }
 	
 	// public void setData(String data) {
 	// 	textArea.setText(data);
@@ -90,16 +92,13 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 
 	@Override
 	public boolean isInitialized() {
-		
 		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-		
 	}
-	
 }
 
 
