@@ -37,17 +37,13 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
-    private JList<String> addrrs_list;
-	
-
-	//Singleton class
+    //Singleton class
 	private AllAddressWindow() {}
 	
 	public void init() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
-		defineMiddlePanel();
 		defineLowerPanel();
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
@@ -65,28 +61,7 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		topPanel.add(AllIDsLabel);
 	}
 	
-	public void defineMiddlePanel() {
-		this.middlePanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
-		this.middlePanel.setLayout(fl);
-        populateList();
-		this.middlePanel.add(new JScrollPane(addrrs_list));
-	}
-    
-	private void populateList() {
-        List<Address> ids = ci.allAddressObj();
-        DefaultListModel<String> model = new DefaultListModel<>();
-        System.out.println("Address Len:"+ids.size());
-        for(Address s: ids) {
-            String ss = s.toString();
-            model.addElement(ss);
-        }
-        addrrs_list = new JList<String>(model);
-        addrrs_list.setCellRenderer(new NumberedListCellRenderer());
-
-	}
-    
-    public class NumberedListCellRenderer extends DefaultListCellRenderer {
+	public class NumberedListCellRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -98,6 +73,21 @@ public class AllAddressWindow extends JFrame implements LibWindow {
     }
 
 	public void defineLowerPanel() {
+		middlePanel = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
+		middlePanel.setLayout(fl);
+        JList<String> addrrs_list;
+		List<Address> ids = ci.allAddressObj();
+        DefaultListModel<String> model = new DefaultListModel<>();
+        System.out.println("Address Len:"+ids.size());
+        for(Address s: ids) {
+            String ss = s.toString();
+            model.addElement(ss);
+        }
+        addrrs_list = new JList<String>(model);
+        addrrs_list.setCellRenderer(new NumberedListCellRenderer());
+		middlePanel.add(new JScrollPane(addrrs_list));
+
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
 		lowerPanel = new JPanel();
@@ -105,24 +95,18 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 		lowerPanel.add(backToMainButn);
 
         JButton deleteButton = new JButton("Delete Select Item");
-		deleteButton.addActionListener(new DeleteSelectListener());
-		lowerPanel.add(deleteButton);
-	}
-    class DeleteSelectListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-            if (addrrs_list.getSelectedValue()!=null){
+		deleteButton.addActionListener(evt ->{
+			if (addrrs_list.getSelectedValue()!=null){
                 DataAccess da = new DataAccessFacade();
                 String addr_key = da.getAddressByKey(addrrs_list.getSelectedValue());
                 if (addr_key!=null){
                     da.removeAddress(addr_key);
-                    populateList();
                 }
-                
-            }
-		}
+			}
+		});
+		lowerPanel.add(deleteButton);
 	}
-	class BackToMainListener implements ActionListener {
+    class BackToMainListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();

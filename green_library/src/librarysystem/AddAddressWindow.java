@@ -32,19 +32,7 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
 	
-	private JTextField streetField;
-	private JTextField cityField;
-	private JTextField stateField;
-    private JTextField zipField;
-
-	public void clearData() {
-		streetField.setText("");
-		cityField.setText("");
-		stateField.setText("");	
-        zipField.setText("");
-	}
-	
-    public AddAddressWindow() {}
+	public AddAddressWindow() {}
 
 	public void defineTopPanel() {
 		topPanel = new JPanel();
@@ -74,6 +62,10 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		JLabel stateLabel = new JLabel("State");
         JLabel zipLabel = new JLabel("Zip");
 		
+		JTextField streetField;
+		JTextField cityField;
+		JTextField stateField;
+		JTextField zipField;
 		streetField = new JTextField(10);
 		cityField = new JTextField(10);
 		stateField = new JTextField(10);
@@ -102,7 +94,23 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Address");
-		attachAddAddressButtonListener(addBookButton);
+		addBookButton.addActionListener(evt -> {
+			String street = streetField.getText();
+			String city= cityField.getText();
+			String state = stateField.getText();
+            String zip = zipField.getText();
+            Address addr = new Address(street, city, state, zip);
+			DataAccess da = new DataAccessFacade();
+            da.saveNewAddress(addr);
+            // clear
+			streetField.setText(null);
+			cityField.setText(null);
+			stateField.setText(null);
+			zipField.setText(null);
+            // Data.addBookTitle(title);
+			// displayInfo("The book " + title + " has been added " +
+			//    "to the collection!");
+	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);
@@ -116,29 +124,8 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
 		lowerPanel.add(backToMainButn);
 	}
-	private void attachAddAddressButtonListener(JButton butn) {
-		butn.addActionListener(evt -> {
-			String street = streetField.getText();
-			String city= cityField.getText();
-			String state = stateField.getText();
-            String zip = zipField.getText();
-            Address addr = new Address(street, city, state, zip);
-			// addrs.add(new Address(street, city, state, zip));
-            // DataAccessFacade.;	
-            DataAccess da = new DataAccessFacade();
-            da.saveNewAddress(addr);
-            clearData();
-            // Data.addBookTitle(title);
-			// displayInfo("The book " + title + " has been added " +
-			//    "to the collection!");			
-		
-	    });
-	}
-
-	public void updateData() {
-		// nothing to do
-	}
-    @Override
+	
+	@Override
     public void init() {
         mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
