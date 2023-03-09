@@ -44,9 +44,8 @@ public class DataAccessFacade implements DataAccess {
 	}
 	public void removeAddress(String addr_key) {
 		HashMap<String, Address> addrs = readAddressMap();
-		System.out.println("remove before size:"+addrs.size()+" "+addr_key);
 		addrs.remove(addr_key);
-		saveToStorage(StorageType.ADDRESS, addrs);	
+		saveToStorage(StorageType.ADDRESS, addrs);
 	}
 	public String getAddressByKey(String addr){
 		HashMap<String, Address> addrs = readAddressMap();

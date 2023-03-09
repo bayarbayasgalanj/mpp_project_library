@@ -66,25 +66,29 @@ public class AllAddressWindow extends JFrame implements LibWindow {
 	}
 	
 	public void defineMiddlePanel() {
-		middlePanel = new JPanel();
+		this.middlePanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
-		middlePanel.setLayout(fl);
+		this.middlePanel.setLayout(fl);
         populateList();
-		middlePanel.add(new JScrollPane(addrrs_list));
+		this.middlePanel.add(new JScrollPane(addrrs_list));
 	}
+    
 	private void populateList() {
         List<Address> ids = ci.allAddressObj();
         DefaultListModel<String> model = new DefaultListModel<>();
+        System.out.println("Address Len:"+ids.size());
         for(Address s: ids) {
             String ss = s.toString();
             model.addElement(ss);
         }
         addrrs_list = new JList<String>(model);
         addrrs_list.setCellRenderer(new NumberedListCellRenderer());
+        middlePanel.repaint();
+        addrrs_list.repaint();
+        mainPanel.repaint();
 	}
     
     public class NumberedListCellRenderer extends DefaultListCellRenderer {
-
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

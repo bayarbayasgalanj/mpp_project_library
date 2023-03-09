@@ -109,33 +109,26 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		outerMiddle.add(addBookButtonPanel, BorderLayout.CENTER);
 		
 	}
-
     public void defineLowerPanel() {
-		
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
 		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
 		lowerPanel.add(backToMainButn);
 	}
-
-    
-
 	private void attachAddAddressButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			
 			String street = streetField.getText();
 			String city= cityField.getText();
 			String state = stateField.getText();
             String zip = zipField.getText();
             Address addr = new Address(street, city, state, zip);
 			// addrs.add(new Address(street, city, state, zip));
-            
             // DataAccessFacade.;	
             DataAccess da = new DataAccessFacade();
             da.saveNewAddress(addr);
             clearData();
-			// Data.addBookTitle(title);
+            // Data.addBookTitle(title);
 			// displayInfo("The book " + title + " has been added " +
 			//    "to the collection!");			
 		
@@ -157,7 +150,7 @@ public class AddAddressWindow extends JFrame implements LibWindow {
         mainPanel.add(lowerPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel);
         isInitialized = true;
-
+        mainPanel.repaint();
     }
 
     class BackToMainListener implements ActionListener {
@@ -165,7 +158,6 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
-
 		}
 	}
 
@@ -178,6 +170,5 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-		
 	}
 }

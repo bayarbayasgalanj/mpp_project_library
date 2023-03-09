@@ -203,13 +203,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
+
 			AllAddressWindow.INSTANCE.init();
 			AllAddressWindow.INSTANCE.pack();
 			AllAddressWindow.INSTANCE.setVisible(true);
-			LibrarySystem.hideAllWindows();
-			AllBookIdsWindow.INSTANCE.init();
-			// AllAddressWindow.INSTANCE.setData(sb.toString());
-			AllAddressWindow.INSTANCE.pack();
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllAddressWindow.INSTANCE);
 			AllAddressWindow.INSTANCE.setVisible(true);
@@ -222,10 +219,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AddAddressWindow.INSTANCE.init();
 			AddAddressWindow.INSTANCE.pack();
 			AddAddressWindow.INSTANCE.setVisible(true);
-			LibrarySystem.hideAllWindows();
-			AllBookIdsWindow.INSTANCE.init();
-			
-			AddAddressWindow.INSTANCE.pack();
+			// AddAddressWindow.INSTANCE.pack();
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AddAddressWindow.INSTANCE);
 			AddAddressWindow.INSTANCE.setVisible(true);
