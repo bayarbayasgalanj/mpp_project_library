@@ -34,19 +34,15 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
 	
-	JPanel mainPanel;
-	JPanel topPanel;
-	JPanel middlePanel;
-	JPanel lowerPanel;
+	private JPanel mainPanel;
+	private JPanel topPanel;
+	private JPanel middlePanel;
+	private JPanel lowerPanel;
     //Singleton class
 	private AllAuthorWindow() {}
 	
 	public void init() {
-
-		// private JPanel mainPanel;
-		// private JPanel topPanel;
-		// private JPanel middlePanel;
-		// private JPanel lowerPanel;
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
@@ -106,6 +102,8 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
                 DataAccess da = new DataAccessFacade();
                 String author_key = da.getAuthorByKey(author_list.getSelectedValue());
                 if (author_key!=null){
+					int selectedIndex = author_list.getSelectedIndex();
+					model.remove(selectedIndex);
                     da.removeAuthor(author_key);
                 }
 			}
