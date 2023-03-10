@@ -2,6 +2,7 @@ package rulesets;
 
 import java.awt.Component;
 
+import librarysystem.AddAddressWindow;
 import librarysystem.AddBookWindow;
 
 
@@ -12,41 +13,33 @@ import librarysystem.AddBookWindow;
  *  3. Price must be a number greater than 0.49. 
  */
 
-public class AddBookRuleSet implements RuleSet {
-	private AddBookWindow addBook;
+public class AddAddressRuleSet implements RuleSet {
+	private AddAddressWindow addAddress;
 	@Override
 	public void applyRules(Component ob) throws RuleException {
 		// TODO Auto-generated method stub
-		addBook = (AddBookWindow) ob;
+		addAddress = (AddAddressWindow) ob;
 		isEmptyRules();
 		isNumberRule();
-		authorsCount();
-	}
-	private void authorsCount() throws RuleException {
-		int count = addBook.getAuthorsCount();
-		if(count == 0){
-			throw new RuleException("Add at least one author please.");
-		}
 	}
 	private void isEmptyRules() throws RuleException {
-		if(addBook.getIsbnValue().trim().isEmpty() ||
-		addBook.getTitleValue().trim().isEmpty() ||
-		addBook.getMaxLengthValue().trim().isEmpty()){
+		if(addAddress.getStreetValue().trim().isEmpty() ||
+		addAddress.getCityValue().trim().isEmpty() ||
+		addAddress.getStateValue().trim().isEmpty() ||
+		addAddress.getZipValue().trim().isEmpty()){
 			throw new RuleException("All fields must be non empty");
 		}
 	}
 	private void isNumberRule() throws RuleException {
-		String val = addBook.getIsbnValue().trim();
+		String val = addAddress.getZipValue().trim();
 		try{
 			Integer.parseInt(val);
 		} catch (NumberFormatException e){
-			throw new RuleException("ISBN must be numeric");
+			throw new RuleException("Zipcode must be numeric");
 		}
-		if(val.length() != 10) {
-			throw new RuleException("ISBN must be 10 digits");
+		if(val.length() != 5) {
+			throw new RuleException("Zipcode must be 5 digits");
 		}
 	}
-
-
 	
 }

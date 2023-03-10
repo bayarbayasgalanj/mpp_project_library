@@ -26,6 +26,10 @@ import business.*;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
+import rulesets.RuleException;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
+
 public class AddBookWindow extends JFrame implements LibWindow 
 {
     public static final AddBookWindow INSTANCE = new AddBookWindow();
@@ -39,6 +43,11 @@ public class AddBookWindow extends JFrame implements LibWindow
 	private JPanel topPanel;
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
+
+	private JTextField isbn;
+	private JTextField title;
+	private JTextField maxCheckoutLength;
+	private JList<Author> author_list;
 	
 	public AddBookWindow() {}
 
@@ -68,10 +77,6 @@ public class AddBookWindow extends JFrame implements LibWindow
         // private String title;
         // private int maxCheckoutLength;
 
-        JTextField isbn;
-        JTextField title;
-        JTextField maxCheckoutLength;
-        JList<Author> author_list;
 		isbn = new JTextField(10);
         title = new JTextField(10);
         maxCheckoutLength = new JTextField(10);
@@ -86,13 +91,13 @@ public class AddBookWindow extends JFrame implements LibWindow
         author_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
         leftPanel.add(new JLabel("ISBN")); 
-        leftPanel.add(Box.createRigidArea(new Dimension(0,66)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
 		leftPanel.add(new JLabel("Title"));
-        leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(new JLabel("Max Checkout Length"));
         leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(new JLabel("Authors"));
-        leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,120)));
         
         rightPanel.add(isbn);
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
@@ -120,15 +125,38 @@ public class AddBookWindow extends JFrame implements LibWindow
                     authors.add(author);
                 }
             }
-			System.out.println("MULTIPLE:"+authors);
-            
-			Book book = new Book(i, t, m, authors);
-            System.out.println("BOOOK:"+book);
-            da.saveNewBook(book);
-            // clear
-			isbn.setText(null);
-			title.setText(null);
-			maxCheckoutLength.setText("1");
+			String n = System.getProperty("line.separator");
+			try {
+				RuleSet rules = RuleSetFactory.getRuleSet(AddBookWindow.this);
+				rules.applyRules(AddBookWindow.this);
+				String output = i + n + t + n + m + n;
+				System.out.println(output);
+			
+            	if (author_list!=null){
+                	for (Author author: author_list.getSelectedValuesList()){
+                		authors.add(author);
+                	}
+            	}
+				System.out.println("MULTIPLE:"+authors);
+				Book book = new Book(i, t, m, authors);
+            	System.out.println("BOOOK:"+book);
+            	da.saveNewBook(book);
+
+				List<Book> book_ids = ci.allBookObj();
+				// AllBookIdsWindow.AddRowToJTable(new Object[]{
+				// 	book_ids.size(),
+				// 	book.getIsbn(),
+				// 	book.getTitle(),
+				// 	book.getAuthorsName(),
+				// 	book.getMaxCheckoutLength(),
+		 		// });
+            	// clear
+				isbn.setText(null);
+				title.setText(null);
+				maxCheckoutLength.setText("1");
+			} catch (RuleException e){
+				JOptionPane.showMessageDialog(AddBookWindow.this, e.getMessage());
+			}
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -184,5 +212,21 @@ public class AddBookWindow extends JFrame implements LibWindow
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
+	}
+
+	public String getIsbnValue() {
+		return isbn.getText();
+	}
+
+	public String getTitleValue() {
+		return title.getText();
+	}
+
+	public String getMaxLengthValue() {
+		return maxCheckoutLength.getText();
+	}
+
+	public int getAuthorsCount(){
+		return author_list.getComponentCount();
 	}
 }

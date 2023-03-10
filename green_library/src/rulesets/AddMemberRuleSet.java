@@ -3,6 +3,7 @@ package rulesets;
 import java.awt.Component;
 
 import librarysystem.AddBookWindow;
+import librarysystem.AddMemberWindow;
 
 
 /**
@@ -12,38 +13,33 @@ import librarysystem.AddBookWindow;
  *  3. Price must be a number greater than 0.49. 
  */
 
-public class AddBookRuleSet implements RuleSet {
-	private AddBookWindow addBook;
+public class AddMemberRuleSet implements RuleSet {
+	private AddMemberWindow addMember;
 	@Override
 	public void applyRules(Component ob) throws RuleException {
 		// TODO Auto-generated method stub
-		addBook = (AddBookWindow) ob;
+		addMember = (AddMemberWindow) ob;
 		isEmptyRules();
 		isNumberRule();
-		authorsCount();
 	}
-	private void authorsCount() throws RuleException {
-		int count = addBook.getAuthorsCount();
-		if(count == 0){
-			throw new RuleException("Add at least one author please.");
-		}
-	}
+	
 	private void isEmptyRules() throws RuleException {
-		if(addBook.getIsbnValue().trim().isEmpty() ||
-		addBook.getTitleValue().trim().isEmpty() ||
-		addBook.getMaxLengthValue().trim().isEmpty()){
+		if(addMember.getFirstnameValue().trim().isEmpty() ||
+		addMember.getLastnameString().trim().isEmpty() ||
+		addMember.getTelephoneValue().trim().isEmpty() ||
+		addMember.getMemberIdValue().trim().isEmpty()){
 			throw new RuleException("All fields must be non empty");
 		}
 	}
 	private void isNumberRule() throws RuleException {
-		String val = addBook.getIsbnValue().trim();
+		String val = addMember.getTelephoneValue().trim();
 		try{
 			Integer.parseInt(val);
 		} catch (NumberFormatException e){
-			throw new RuleException("ISBN must be numeric");
+			throw new RuleException("Phone number must be numeric");
 		}
-		if(val.length() != 10) {
-			throw new RuleException("ISBN must be 10 digits");
+		if(val.length() != 10 ) {
+			throw new RuleException("Phone number must be 10 digits");
 		}
 	}
 
