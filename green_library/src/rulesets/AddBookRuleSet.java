@@ -2,6 +2,8 @@ package rulesets;
 
 import java.awt.Component;
 
+import librarysystem.AddBookWindow;
+
 
 /**
  * Rules:
@@ -10,12 +12,12 @@ import java.awt.Component;
  *  3. Price must be a number greater than 0.49. 
  */
 
-public class CDRuleSet implements RuleSet {
-
+public class AddBookRuleSet implements RuleSet {
+	private AddBookWindow addBook;
 	@Override
 	public void applyRules(Component ob) throws RuleException {
 		// TODO Auto-generated method stub
-		
+		addBook = (AddBookWindow) ob;
 	}
 	
 }
