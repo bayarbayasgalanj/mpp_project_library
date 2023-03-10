@@ -26,6 +26,10 @@ import business.*;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
+import rulesets.RuleException;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
+
 public class AddAuthorWindow extends JFrame implements LibWindow 
 {
     public static final AddAuthorWindow INSTANCE = new AddAuthorWindow();
@@ -39,12 +43,18 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 	private JPanel topPanel;
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
+
+	JTextField firstName;
+	JTextField lastName;
+	JTextField telephone;
+	JComboBox<Address> address_list = new JComboBox<Address>();
+	JTextField bio;
 	
 	public AddAuthorWindow() {}
 
 	public void defineTopPanel() {
 		topPanel = new JPanel();
-		JLabel AddBookLabel = new JLabel("Checkout Order");
+		JLabel AddBookLabel = new JLabel("Author Window");
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(AddBookLabel);
@@ -63,12 +73,7 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		
-        JLabel checkoutLabel = new JLabel("Order Number");
-		JTextField firstName;
-        JTextField lastName;
-        JTextField telephone;
-        JComboBox<Address> address_list = new JComboBox<Address>();
-        JTextField bio;
+        JLabel checkoutLabel = new JLabel("Author number");
         
 		firstName = new JTextField(10);
         lastName = new JTextField(10);
@@ -112,7 +117,7 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 		outerMiddle.add(middlePanel, BorderLayout.NORTH);
 		
 		//add button at bottom
-		JButton addBookButton = new JButton("Add Order");
+		JButton addBookButton = new JButton("Add Author");
         addBookButton.addActionListener(evt -> {
 			DataAccess da = new DataAccessFacade();
 			AllAuthorWindow aw = AllAuthorWindow.INSTANCE;
@@ -121,18 +126,25 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 			String phone = telephone.getText();
 			// String addr = address.getText();
             String bi = bio.getText();
-			Address addr = (Address) address_list.getSelectedItem();
-            Author author = new Author(fName, lName, phone, addr, bi);
-			
-            da.saveNewAuthor(author);
-			// aw.addToModel(author);
-
-            // clear
-			firstName.setText(null);
-			lastName.setText(null);
-			telephone.setText(null);
-			// address.setText(null);
-            bio.setText(null);
+			String n = System.getProperty("line.separator");
+            
+			try {
+				RuleSet rules = RuleSetFactory.getRuleSet(AddAuthorWindow.this);
+				rules.applyRules(AddAuthorWindow.this);
+				String output = fName + n + lName + n + phone + n + bi;
+				System.out.println(output);
+				Author author = new Author(fName, lName, phone, null, bi);
+				// DataAccess da = new DataAccessFacade();
+            	da.saveNewAuthor(author);
+            	// clear
+				firstName.setText(null);
+				lastName.setText(null);
+				telephone.setText(null);
+				// address.setText(null);
+            	bio.setText(null);
+			} catch(RuleException e){
+				JOptionPane.showMessageDialog(AddAuthorWindow.this, e.getMessage());
+			}
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -188,5 +200,19 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
+	}
+
+	public String getFirstNameValue(){
+		return firstName.getText();
+	}
+
+	public String getLastnameValue(){
+		return lastName.getText();
+	}
+	public String getTelephoneValue(){
+		return telephone.getText();
+	}
+	public String getBioValue(){
+		return bio.getText();
 	}
 }
