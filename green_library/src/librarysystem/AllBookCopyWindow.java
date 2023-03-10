@@ -57,7 +57,15 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 			data[i][2] = ""+s.getCopyNum();
 			data[i][3] = ""+s.isAvailable();
 		}
-		JTable bookTable = new JTable(data,column);
+		JTable bookTable = new JTable(data,column){
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+			   return false;
+			}
+		};
+		bookTable.setRowSelectionAllowed(true);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(3);
+		bookTable.getColumnModel().getColumn(1).setPreferredWidth(10);
+		bookTable.getColumnModel().getColumn(2).setPreferredWidth(3);
 		middlePanel.add(new JScrollPane(bookTable));
 		// defineLowerPanel();
 		JButton backToMainButn = new JButton("<= Back to Main");

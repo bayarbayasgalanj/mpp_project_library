@@ -71,31 +71,28 @@ public class AddBookWindow extends JFrame implements LibWindow
         JTextField isbn;
         JTextField title;
         JTextField maxCheckoutLength;
-        JList<String> author_list;
+        JList<Author> author_list;
 		isbn = new JTextField(10);
         title = new JTextField(10);
         maxCheckoutLength = new JTextField(10);
         maxCheckoutLength.setText("1");
         List<Author> ids = ci.allAuthorsObj();
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultListModel<Author> model = new DefaultListModel<>();
 		System.out.println("Address Len:"+ids.size());
 		for(Author s: ids) {
-			String ss = s.toString();
-			model.addElement(ss);
+			model.addElement(s);
 		}
-        author_list = new JList<String>(model);
+        author_list = new JList<Author>(model);
         author_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
-        // address_list
-		// orderNumber.setText("ttt");
-		leftPanel.add(new JLabel("ISBN")); 
-        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
+        leftPanel.add(new JLabel("ISBN")); 
+        leftPanel.add(Box.createRigidArea(new Dimension(0,66)));
 		leftPanel.add(new JLabel("Title"));
-        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
         leftPanel.add(new JLabel("Max Checkout Length"));
         leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(new JLabel("Authors"));
-        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
         
         rightPanel.add(isbn);
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
@@ -117,15 +114,10 @@ public class AddBookWindow extends JFrame implements LibWindow
 			String i = isbn.getText();
 			String t = title.getText();
 			int m = Integer.parseInt(maxCheckoutLength.getText());
-            
 			List<Author> authors = new ArrayList<Author>();
             if (author_list!=null){
-                for (String s: author_list.getSelectedValuesList()){
-                    System.out.println("++++++:++++++"+s);
-                    Author author = da.getAuthorByKeyObj(s);
-                    if (author!=null){
-                        authors.add(author);
-                    }
+                for (Author author: author_list.getSelectedValuesList()){
+                    authors.add(author);
                 }
             }
 			System.out.println("MULTIPLE:"+authors);

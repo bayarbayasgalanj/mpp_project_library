@@ -60,15 +60,6 @@ public class DataAccessFacade implements DataAccess {
 		}
 		return null;
 	}
-	public Author getAuthorByKeyObj(String author){
-		HashMap<String, Author> authors = readAuthorMap();
-		for (Map.Entry<String, Author> entry : authors.entrySet()) {
-			if (entry.getValue().toString().equals(author)){
-				return entry.getValue();
-			}
-		}
-		return null;
-	}
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
@@ -98,15 +89,6 @@ public class DataAccessFacade implements DataAccess {
 		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
 			if (entry.getValue().getId().equals(addr)){
 				return entry.getKey();
-			}
-		}
-		return null;
-	}
-	public Address getAddressByKeyObj(String addr){
-		HashMap<String, Address> addrs = readAddressMap();
-		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
-			if (entry.getValue().getId().equals(addr)){
-				return entry.getValue();
 			}
 		}
 		return null;

@@ -57,7 +57,13 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 			data[i][3] = s.getAuthorsName();
 			data[i][4] = ""+s.getMaxCheckoutLength();
 		}
-		JTable bookTable = new JTable(data,column);
+		JTable bookTable = new JTable(data,column){
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+			   return false;
+			}
+		};
+		bookTable.setRowSelectionAllowed(true);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(3);
 		middlePanel.add(new JScrollPane(bookTable));
 		// defineLowerPanel();
 		JButton backToMainButn = new JButton("<= Back to Main");

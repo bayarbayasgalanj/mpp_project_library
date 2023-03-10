@@ -66,7 +66,7 @@ public class AddMemberWindow extends JFrame implements LibWindow
         JTextField firstName;
         JTextField lastName;
         JTextField telephone;
-        JComboBox<String> address_list = new JComboBox<String>();
+        JComboBox<Address> address_list = new JComboBox<Address>();
         JTextField memberId;
         
 		firstName = new JTextField(10);
@@ -75,12 +75,9 @@ public class AddMemberWindow extends JFrame implements LibWindow
         memberId = new JTextField(10);
 
         List<Address> ids = ci.allAddressObj();
-        
-        List<String> choices = new ArrayList<String>();
         for(Address s: ids) {
             String ss = s.toString();
-            choices.add(ss);
-            address_list.addItem(ss);
+            address_list.addItem(s);
         }
         // address_list
 		// orderNumber.setText("ttt");
@@ -117,7 +114,7 @@ public class AddMemberWindow extends JFrame implements LibWindow
 			String fName = firstName.getText();
 			String lName = lastName.getText();
 			String phone = telephone.getText();
-			Address addr = da.getAddressByKeyObj((String)address_list.getSelectedItem());
+			Address addr = (Address) address_list.getSelectedItem();
 			System.out.println("--------"+addr);
 			String memId = memberId.getText();
             LibraryMember member = new LibraryMember(memId, fName, lName, phone, addr);
