@@ -52,6 +52,44 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 	@Override
+	public List<Book> allBookObj() {
+		DataAccess da = new DataAccessFacade();
+		List<Book> retval = new ArrayList<>();
+		if(da.readBooksMap()!=null) {
+			da.readBooksMap().forEach((key, value) -> retval.add(value));
+		}
+		return retval;
+	}
+	@Override
+	public List<String> allBookCopyIds() {
+		DataAccess da = new DataAccessFacade();
+		List<String> retval = new ArrayList<>();
+		if (da.readBooksMap()!=null){
+			List<String> retval2 = new ArrayList<>();
+			da.readBooksMap().forEach((key, value) -> {
+				for (BookCopy bc: value.getCopies()){
+					retval2.add(bc.toString());
+				}
+			});
+			retval.addAll(retval2);
+		}
+		return retval;
+	}
+	@Override
+	public List<BookCopy> allBookCopyObj() {
+		DataAccess da = new DataAccessFacade();
+		List<BookCopy> retval = new ArrayList<>();
+		if(da.readBooksMap()!=null) {
+			da.readBooksMap().forEach((key, value) -> {
+				for (BookCopy bc: value.getCopies()){
+					retval.add(bc);
+				}
+			});
+		}
+		return retval;
+	}
+	
+	@Override
 	public List<String> allAddress() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();

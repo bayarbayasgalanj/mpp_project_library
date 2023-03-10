@@ -25,7 +25,8 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
-			+ "/green_library/src/dataaccess/storage"; //for Unix file system
+			+ "/src/dataaccess/storage"; //for Unix file system
+//			+ "/green_library/src/dataaccess/storage"; //for Unix file system
 //			+ "\\src\\dataaccess\\storage"; //for Windows file system
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
@@ -36,6 +37,13 @@ public class DataAccessFacade implements DataAccess {
 		String authorId = author.getAuthorId();
 		authors.put(authorId, author);
 		saveToStorage(StorageType.AUTHOR, authors);	
+	}
+	@Override
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String bookId = book.getIsbn();
+		books.put(bookId, book);
+		saveToStorage(StorageType.BOOKS, books);	
 	}
 	public void removeAuthor(String addr_key) {
 		HashMap<String, Author> addrs = readAuthorMap();
@@ -48,6 +56,15 @@ public class DataAccessFacade implements DataAccess {
 			String key = entry.getValue().getFirstName()+" "+entry.getValue().getLastName()+" "+entry.getValue().getBio();
 			if (key.equals(author)){
 				return entry.getKey();
+			}
+		}
+		return null;
+	}
+	public Author getAuthorByKeyObj(String author){
+		HashMap<String, Author> authors = readAuthorMap();
+		for (Map.Entry<String, Author> entry : authors.entrySet()) {
+			if (entry.getValue().toString().equals(author)){
+				return entry.getValue();
 			}
 		}
 		return null;
@@ -205,7 +222,7 @@ public class DataAccessFacade implements DataAccess {
 			in = new ObjectInputStream(Files.newInputStream(path));
 			retVal = in.readObject();
 		} catch(Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			if(in != null) {
 				try {

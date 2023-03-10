@@ -11,6 +11,9 @@ public interface ControllerInterface {
 	public void login(String id, String password) throws LoginException;
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
+	public List<Book> allBookObj();
+	public List<String> allBookCopyIds();
+	public List<BookCopy> allBookCopyObj();
 	public List<String> allAddress();
 	public List<Address> allAddressObj();
 	public List<CheckoutRecord> allCheckoutRecord();

@@ -1,6 +1,7 @@
 package business;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 final public class Author extends Person implements Serializable {
 	private String bio;
@@ -14,7 +15,8 @@ final public class Author extends Person implements Serializable {
 	public Author(String f, String l, String t, Address a, String bio) {
 		super(f, l, t, a);
 		this.bio = bio;
-		this.authorId = f+" "+l;
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		this.authorId = uuid;
 	}
 	public String toString(){
 		return this.getFirstName()+" "+this.getLastName()+" "+this.bio;

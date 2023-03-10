@@ -38,7 +38,9 @@ final public class BookCopy implements Serializable {
 	public void changeAvailability() {
 		isAvailable = !isAvailable;
 	}
-	
+	public String toString() {
+		return book.toString();
+	}
 	@Override
 	public boolean equals(Object ob) {
 		if(ob == null) return false;

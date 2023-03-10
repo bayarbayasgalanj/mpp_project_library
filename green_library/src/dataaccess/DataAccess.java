@@ -5,11 +5,14 @@ import java.util.HashMap;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.BookCopy;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
 
 public interface DataAccess { 
 	public HashMap<String,Book> readBooksMap();
+	// public HashMap<String,BookCopy> readBookCopyMap();
+	public void saveNewBook(Book book);
 	public HashMap<String,User> readUserMap();
 	public HashMap<String, LibraryMember> readMemberMap();
 	public HashMap<String, Address> readAddressMap();
@@ -21,5 +24,6 @@ public interface DataAccess {
 	public void saveNewAuthor(Author author); 
 	public void removeAuthor(String addr_key); 
 	public String getAuthorByKey(String addr); 
+	public Author getAuthorByKeyObj(String author); 
 	public HashMap<String, Author> readAuthorMap();
 }
