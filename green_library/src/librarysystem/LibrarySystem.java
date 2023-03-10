@@ -152,8 +152,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		book_menus.add(book_copy_view);
 		member_menus.add(allMemberIds);
 		member_menus.add(add_member_menu);
-		hideMenuLibrarian(false);
-		hideMenuAdmin(false);
+		// hideMenuLibrarian(false);
+		// hideMenuAdmin(false);
+		hideMenuLibrarian(true);
+		hideMenuAdmin(true);
     }
 	// LIBRARIAN, ADMIN, BOTH;
 	public void hideMenuLibrarian(boolean show){
