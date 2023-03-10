@@ -118,6 +118,15 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 	@Override
+	public List<User> allUserObj() {
+		DataAccess da = new DataAccessFacade();
+		List<User> retval = new ArrayList<>();
+		if(da.readUserMap()!=null) {
+			da.readUserMap().forEach((key, value) -> retval.add(value));
+		}
+		return retval;
+	}
+	@Override
 	public HashMap<String, String> allAddressHashmap() {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, String> retval = new HashMap<>();
