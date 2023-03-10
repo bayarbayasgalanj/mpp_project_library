@@ -26,10 +26,6 @@ import business.*;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
-import rulesets.RuleException;
-import rulesets.RuleSet;
-import rulesets.RuleSetFactory;
-
 public class AddMemberWindow extends JFrame implements LibWindow 
 {
     public static final AddMemberWindow INSTANCE = new AddMemberWindow();
@@ -43,12 +39,6 @@ public class AddMemberWindow extends JFrame implements LibWindow
 	private JPanel topPanel;
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
-
-	JTextField firstName;
-	JTextField lastName;
-	JTextField telephone;
-	JComboBox<Address> address_list = new JComboBox<Address>();
-	JTextField memberId;
 	
 	public AddMemberWindow() {}
 
@@ -72,6 +62,12 @@ public class AddMemberWindow extends JFrame implements LibWindow
 		JPanel rightPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		
+        JTextField firstName;
+        JTextField lastName;
+        JTextField telephone;
+        JComboBox<Address> address_list = new JComboBox<Address>();
+        JTextField memberId;
         
 		firstName = new JTextField(10);
         lastName = new JTextField(10);
@@ -121,24 +117,15 @@ public class AddMemberWindow extends JFrame implements LibWindow
 			Address addr = (Address) address_list.getSelectedItem();
 			System.out.println("--------"+addr);
 			String memId = memberId.getText();
-			String n = System.getProperty("line.separator");
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddMemberWindow.this);
-				rules.applyRules(AddMemberWindow.this);
-				String output = fName + n + lName + n + phone + n + addr + n + memId;
-				System.out.println(output);
-				LibraryMember member = new LibraryMember(memId, fName, lName, phone, addr);
-				
-				da.saveNewMember(member);
-				// clear
-				firstName.setText(null);
-				lastName.setText(null);
-				telephone.setText(null);
-				// address.setText(null);
-				memberId.setText(null);
-			} catch (RuleException e){
-				JOptionPane.showMessageDialog(AddMemberWindow.this, e.getMessage());
-			}
+            LibraryMember member = new LibraryMember(memId, fName, lName, phone, addr);
+			
+            da.saveNewMember(member);
+            // clear
+			firstName.setText(null);
+			lastName.setText(null);
+			telephone.setText(null);
+			// address.setText(null);
+            memberId.setText(null);
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -194,21 +181,5 @@ public class AddMemberWindow extends JFrame implements LibWindow
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-	}
-
-	public String getFirstnameValue() {
-		return firstName.getText();
-	}
-
-	public String getLastnameString() {
-		return lastName.getText();
-	}
-
-	public String getTelephoneValue() {
-		return telephone.getText();
-	}
-
-	public String getMemberIdValue() {
-		return memberId.getText();
 	}
 }

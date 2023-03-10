@@ -47,7 +47,7 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 	JTextField firstName;
 	JTextField lastName;
 	JTextField telephone;
-	JComboBox<Address> address_list = new JComboBox<Address>();
+	JComboBox<String> address_list = new JComboBox<String>();
 	JTextField bio;
 	
 	public AddAuthorWindow() {}
@@ -82,11 +82,11 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 
         List<Address> ids = ci.allAddressObj();
         
-        // List<String> choices = new ArrayList<String>();
+        List<String> choices = new ArrayList<String>();
         for(Address s: ids) {
             String ss = s.toString();
-            // choices.add(ss);
-            address_list.addItem(s);
+            choices.add(ss);
+            address_list.addItem(ss);
         }
         // address_list
 		// orderNumber.setText("ttt");
@@ -119,8 +119,6 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Author");
         addBookButton.addActionListener(evt -> {
-			DataAccess da = new DataAccessFacade();
-			AllAuthorWindow aw = AllAuthorWindow.INSTANCE;
 			String fName = firstName.getText();
 			String lName = lastName.getText();
 			String phone = telephone.getText();
@@ -134,7 +132,7 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 				String output = fName + n + lName + n + phone + n + bi;
 				System.out.println(output);
 				Author author = new Author(fName, lName, phone, null, bi);
-				// DataAccess da = new DataAccessFacade();
+				DataAccess da = new DataAccessFacade();
             	da.saveNewAuthor(author);
             	// clear
 				firstName.setText(null);

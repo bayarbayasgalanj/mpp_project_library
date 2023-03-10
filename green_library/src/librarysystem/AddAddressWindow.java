@@ -12,17 +12,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import business.*;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
-
-import rulesets.RuleException;
-import rulesets.RuleSet;
-import rulesets.RuleSetFactory;
 
 public class AddAddressWindow extends JFrame implements LibWindow {
     public static final AddAddressWindow INSTANCE = new AddAddressWindow();
@@ -36,11 +31,6 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
-
-	JTextField streetField;
-	JTextField cityField;
-	JTextField stateField;
-	JTextField zipField;
 	
 	public AddAddressWindow() {}
 
@@ -72,6 +62,10 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 		JLabel stateLabel = new JLabel("State");
         JLabel zipLabel = new JLabel("Zip");
 		
+		JTextField streetField;
+		JTextField cityField;
+		JTextField stateField;
+		JTextField zipField;
 		streetField = new JTextField(10);
 		cityField = new JTextField(10);
 		stateField = new JTextField(10);
@@ -105,24 +99,14 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 			String city= cityField.getText();
 			String state = stateField.getText();
             String zip = zipField.getText();
-            
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddAddressWindow.this);
-				rules.applyRules(AddAddressWindow.this);
-				String output = street + ", " + city + ", " + state + ", " + zip;
-				System.out.println(output);
-				
-				Address addr = new Address(street, city, state, zip);
-				DataAccess da = new DataAccessFacade();
-				da.saveNewAddress(addr);
-				// clear
-				streetField.setText(null);
-				cityField.setText(null);
-				stateField.setText(null);
-				zipField.setText(null);
-			} catch (RuleException e){
-				JOptionPane.showMessageDialog(AddAddressWindow.this, e.getMessage());
-			}
+            Address addr = new Address(street, city, state, zip);
+			DataAccess da = new DataAccessFacade();
+            da.saveNewAddress(addr);
+            // clear
+			streetField.setText(null);
+			cityField.setText(null);
+			stateField.setText(null);
+			zipField.setText(null);
             // Data.addBookTitle(title);
 			// displayInfo("The book " + title + " has been added " +
 			//    "to the collection!");
@@ -172,21 +156,5 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-	}
-
-	public String getStreetValue(){
-		return streetField.getText();
-	}
-
-	public String getCityValue(){
-		return cityField.getText();
-	}
-
-	public String getStateValue(){
-		return stateField.getText();
-	}
-
-	public String getZipValue(){
-		return zipField.getText();
 	}
 }

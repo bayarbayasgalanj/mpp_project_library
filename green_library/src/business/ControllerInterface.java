@@ -3,9 +3,7 @@ package business;
 import java.util.HashMap;
 import java.util.List;
 
-import business.Book;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
+import dataaccess.User;
 
 public interface ControllerInterface {
 	public void login(String id, String password) throws LoginException;
@@ -14,6 +12,7 @@ public interface ControllerInterface {
 	public List<Book> allBookObj();
 	public List<String> allBookCopyIds();
 	public List<BookCopy> allBookCopyObj();
+	public List<User> allUserObj();
 	public List<String> allAddress();
 	public List<Address> allAddressObj();
 	public List<CheckoutRecord> allCheckoutRecord();

@@ -2,25 +2,21 @@ package librarysystem;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
-import business.Address;
 import business.CheckoutRecord;
+import business.CheckoutRecordItem;
 import business.ControllerInterface;
 import business.SystemController;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -46,7 +42,27 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
-		defineMiddlePanel();
+		middlePanel = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
+		middlePanel.setLayout(fl);
+		// List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
+		List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
+		DefaultTableModel model = new DefaultTableModel(new String[] { "Book", "Member", "Due Date" },0);
+		JTable bookTable = new JTable(){
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+			   return false;
+			}
+		};
+		if(crItems!=null){
+			for(CheckoutRecordItem cri: crItems){
+				model.addRow(new Object[]{ cri.getBook(), cri.getCheckOrder().getMember(), cri.getDueDate()});
+			}
+		}
+		bookTable.setModel(model);
+		bookTable.setRowSelectionAllowed(true);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		middlePanel.add(new JScrollPane(bookTable));
+
 		defineLowerPanel();
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
@@ -65,17 +81,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 	}
 	
 	public void defineMiddlePanel() {
-		middlePanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 45);
-		middlePanel.setLayout(fl);
-		List<String> titles = CheckoutRecord.record_datas;
-		DefaultListModel<String> model = new DefaultListModel<>();
-		for(String s: titles) {
-			model.addElement(s);
-		}
-		JList<String> list_ids = new JList<String>(model);
-		list_ids.setCellRenderer(new NumberedListCellRenderer());
-		middlePanel.add(new JScrollPane(list_ids));
+		
     }
 	public class NumberedListCellRenderer extends DefaultListCellRenderer {
         @Override

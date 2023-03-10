@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
+import dataaccess.Auth;
+import dataaccess.User;
 
 
 public class LoginWindow extends JFrame implements LibWindow {
@@ -38,8 +40,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JPanel leftTextPanel;
 	private JPanel rightTextPanel;
 	
-	private JTextField username;
-	private JTextField password;
+	// private JTextField username;
+	// private JTextField password;
 	private JLabel label;
 	private JButton loginButton;
 	private JButton logoutButton;
@@ -129,15 +131,12 @@ public class LoginWindow extends JFrame implements LibWindow {
     		middlePanel=new JPanel();
     		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
     		defineLeftTextPanel();
-    		defineRightTextPanel();
+    		// defineRightTextPanel();
     		middlePanel.add(leftTextPanel);
     		middlePanel.add(rightTextPanel);
     	}
     	private void defineLowerPanel() {
-    		lowerPanel = new JPanel();
-    		loginButton = new JButton("Login");
-    		addLoginButtonListener(loginButton);
-    		lowerPanel.add(loginButton);
+    		
     	}
 
     	private void defineLeftTextPanel() {
@@ -147,6 +146,9 @@ public class LoginWindow extends JFrame implements LibWindow {
     		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
     		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));		
     		
+			JTextField username;
+			JTextField password;
+
     		username = new JTextField(10);
     		label = new JLabel("Username");
     		label.setFont(Util.makeSmallFont(label.getFont()));
@@ -157,24 +159,52 @@ public class LoginWindow extends JFrame implements LibWindow {
     		leftTextPanel.setLayout(new BorderLayout());
     		leftTextPanel.add(topText,BorderLayout.NORTH);
     		leftTextPanel.add(bottomText,BorderLayout.CENTER);
-    	}
-    	private void defineRightTextPanel() {
     		
-    		JPanel topText = new JPanel();
-    		JPanel bottomText = new JPanel();
-    		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
-    		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));		
+    		JPanel topText2 = new JPanel();
+    		JPanel bottomText2 = new JPanel();
+    		topText2.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
+    		bottomText2.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));		
     		
     		password = new JPasswordField(10);
     		label = new JLabel("Password");
     		label.setFont(Util.makeSmallFont(label.getFont()));
-    		topText.add(password);
-    		bottomText.add(label);
+    		topText2.add(password);
+    		bottomText2.add(label);
     		
     		rightTextPanel = new JPanel();
     		rightTextPanel.setLayout(new BorderLayout());
-    		rightTextPanel.add(topText,BorderLayout.NORTH);
-    		rightTextPanel.add(bottomText,BorderLayout.CENTER);
+    		rightTextPanel.add(topText2,BorderLayout.NORTH);
+    		rightTextPanel.add(bottomText2,BorderLayout.CENTER);
+
+			lowerPanel = new JPanel();
+    		loginButton = new JButton("Login");
+			loginButton.addActionListener(evt -> {
+				String user = username.getText();
+				String pass = password.getText();
+				User userObj = User.getLoginCheck(user, pass);
+				if (userObj!=null){
+					JOptionPane.showMessageDialog(this,"Successful Login: "+userObj.getNowAuth());
+					System.out.println("userObj.getNowAuth()"+userObj.getNowAuth());
+					if (userObj.getNowAuth()==Auth.ADMIN){
+						System.out.println("=======");
+						LibrarySystem.INSTANCE.hideMenuLibrarian(false);
+						LibrarySystem.INSTANCE.hideMenuAdmin(true);
+					}
+					else if (userObj.getNowAuth()==Auth.LIBRARIAN){
+						LibrarySystem.INSTANCE.hideMenuLibrarian(true);
+						LibrarySystem.INSTANCE.hideMenuAdmin(false);
+					}
+					else if (userObj.getNowAuth()==Auth.BOTH){
+						LibrarySystem.INSTANCE.hideMenuLibrarian(true);
+						LibrarySystem.INSTANCE.hideMenuAdmin(true);
+					}
+				}else{
+					JOptionPane.showMessageDialog(this,"Sorry Username or Password incorrect!!!");
+				}
+    		});
+    		// addLoginButtonListener(loginButton);
+    		lowerPanel.add(loginButton);
+
     	}
     	
     	private void addBackButtonListener(JButton butn) {
@@ -184,12 +214,9 @@ public class LoginWindow extends JFrame implements LibWindow {
     		});
     	}
     	
-    	private void addLoginButtonListener(JButton butn) {
-    		butn.addActionListener(evt -> {
-    			JOptionPane.showMessageDialog(this,"Successful Login");
-    				
-    		});
-    	}
+    	// private void addLoginButtonListener(JButton butn) {
+    	// 	butn
+    	// }
 	
         
     

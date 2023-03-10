@@ -38,7 +38,6 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
-	private DefaultListModel<String> model = new DefaultListModel<>();
     //Singleton class
 	private AllAuthorWindow() {}
 	
@@ -55,12 +54,7 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
 		getContentPane().add(mainPanel);
 		isInitialized = true;
 	}
-
-	// public void addToModel(Author s) {
-	// 	String ss = s.toString();
-    //     model.addElement(ss);
-	// }
-
+	
     public void defineTopPanel() {
 		topPanel = new JPanel();
 		JLabel AllIDsLabel = new JLabel("All Author");
@@ -86,11 +80,9 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
         JList<String> author_list;
 		List<Author> ids = ci.allAuthorsObj();
-        
+        DefaultListModel<String> model = new DefaultListModel<>();
         System.out.println("Author Len:"+ids.size());
-		model.clear();
         for(Author s: ids) {
-			// this.addToModel(s);
             String ss = s.toString();
             model.addElement(ss);
         }
