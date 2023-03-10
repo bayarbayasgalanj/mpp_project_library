@@ -62,11 +62,6 @@ public class AddBookWindow extends JFrame implements LibWindow
 		JPanel rightPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		
-        // private List<Author> authors;
-        // private String isbn;
-        // private String title;
-        // private int maxCheckoutLength;
 
         JTextField isbn;
         JTextField title;
@@ -125,7 +120,14 @@ public class AddBookWindow extends JFrame implements LibWindow
 			Book book = new Book(i, t, m, authors);
             System.out.println("BOOOK:"+book);
             da.saveNewBook(book);
-            // clear
+			List<Book> book_ids = ci.allBookObj();
+			AllBookIdsWindow.AddRowToJTable(new Object[]{
+				book_ids.size(),
+				book.getIsbn(),
+				book.getTitle(),
+				book.getAuthorsName(),
+				book.getMaxCheckoutLength(),
+		 	});
 			isbn.setText(null);
 			title.setText(null);
 			maxCheckoutLength.setText("1");
@@ -146,6 +148,7 @@ public class AddBookWindow extends JFrame implements LibWindow
             return c;
         }
     }
+	
     public void defineLowerPanel() {
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
