@@ -3,17 +3,17 @@ package librarysystem;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,18 +21,13 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
 
 import business.*;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
-
-public class AddCheckoutWindow extends JFrame implements LibWindow 
-{
+public class AddCheckoutWindow extends JFrame implements LibWindow {
     public static final AddCheckoutWindow INSTANCE = new AddCheckoutWindow();
 	ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
-	private static final AtomicInteger count = new AtomicInteger(10000); 
 	
 	public JPanel getMainPanel() {
 		return mainPanel;
@@ -44,66 +39,110 @@ public class AddCheckoutWindow extends JFrame implements LibWindow
 	
 	public AddCheckoutWindow() {}
 
-	public void defineTopPanel() {
+	public void defineOuterMiddle() {
 		topPanel = new JPanel();
 		JLabel AddBookLabel = new JLabel("Checkout Order");
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(AddBookLabel);
-	}
-	
-	public void defineOuterMiddle() {
-		outerMiddle = new JPanel();
-		outerMiddle.setLayout(new BorderLayout());
 		
-		//set up left and right panels		
-		JPanel middlePanel = new JPanel();
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
-		middlePanel.setLayout(fl);
 		JPanel leftPanel = new JPanel();
 		JPanel rightPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+
+		outerMiddle = new JPanel();
+		outerMiddle.setLayout(new BorderLayout());
+
+		JComboBox<Book> bookList = new JComboBox<Book>();
+        List<Book> ids = ci.allBookObj();
+        for(Book s: ids) { bookList.addItem(s);}
+
+		JComboBox<LibraryMember> memberList = new JComboBox<LibraryMember>();
+        List<LibraryMember> mem_ids = ci.allMembersObs();
+        for(LibraryMember s: mem_ids) { memberList.addItem(s);}
+
+		JComboBox<String> rentType = new JComboBox<String>();
+        rentType.addItem("7");
+		rentType.addItem("14");
+		rentType.addItem("21");
 		
-        JLabel checkoutLabel = new JLabel("Order Number");
-		JTextField orderNumber;
-		orderNumber = new JTextField(10);
-		// String random = java.util.UUID.randomUUID().toString();
-		String random = "" + count.incrementAndGet(); 
+		JPanel middlePanel = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
+		middlePanel.setLayout(fl);
+        JTextField orderNumber;
+		orderNumber = new JTextField(15);
+		String random = java.util.UUID.randomUUID().toString().replace("-", "");
 		orderNumber.setText(random);
-		leftPanel.add(checkoutLabel);
-		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
-		
+		orderNumber.setEditable(false);
+		leftPanel.add(new JLabel("Order Number"));
+		leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
 		rightPanel.add(orderNumber);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		leftPanel.add(new JLabel("Select a Book"));
+		leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
+		rightPanel.add(bookList);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		leftPanel.add(new JLabel("Due Date"));
+		leftPanel.add(Box.createRigidArea(new Dimension(0,15)));
+		rightPanel.add(rentType);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		leftPanel.add(new JLabel("Member"));
+		leftPanel.add(Box.createRigidArea(new Dimension(0,32)));
+		rightPanel.add(memberList);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		JTable bookTable = new JTable(){
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+			   return false;
+			}
+		};
 		
-		JComboBox<BookCopy> bookCopyList = new JComboBox<BookCopy>();
-        List<BookCopy> ids = ci.allBookCopyObj();
-        for(BookCopy s: ids) {
-            bookCopyList.addItem(s);
-        }
-		JTable jTable1 = new JTable();
-		DefaultTableModel mod=new DefaultTableModel();
-		mod.addColumn("Book");
-		mod.addColumn("Quantity");
-		mod.addColumn("Units");
-		mod.addColumn("Amount");
-		mod.addRow(new Object [][] {{null, null, null, null}});
-		jTable1.setModel(mod);
-		jTable1.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(bookCopyList));
-		// jTable1.setColumnSelectionAllowed(true);
+		DefaultTableModel model = new DefaultTableModel(new String[] { "Book", "Due Date" },0);
+		bookTable.setModel(model);
+		bookTable.setRowSelectionAllowed(true);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+
+		JButton inputOrder = new JButton("Input Order");
+		inputOrder.addActionListener(evt -> {
+			Book bName = (Book) bookList.getSelectedItem();
+			String rName = (String) rentType.getSelectedItem().toString();
+			model.addRow(new Object[]{ bName, rName});
+		});
+		rightPanel.add(inputOrder);
+		topPanel.add(leftPanel);
+		topPanel.add(rightPanel);
 		
-		middlePanel.add(new JScrollPane(jTable1));
-		middlePanel.add(leftPanel);
-		middlePanel.add(rightPanel);
+		middlePanel.add(new JScrollPane(bookTable));
 		outerMiddle.add(middlePanel, BorderLayout.NORTH);
-		
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Order");
-		attachAddCheckoutButtonListener(addBookButton, orderNumber);
+		addBookButton.addActionListener(evt -> {
+			String oNumber = orderNumber.getText();
+			LibraryMember mem = (LibraryMember)memberList.getSelectedItem();
+			CheckoutRecord CR = new CheckoutRecord(oNumber, mem);
+			for(int i=0; i<model.getRowCount(); i++){
+				Book b = (Book)model.getValueAt(i, 0);
+				int due_date = Integer.parseInt(model.getValueAt(i, 1).toString());
+				BookCopy bc = b.getCopies()[0];
+				CheckoutRecordItem oLine = new CheckoutRecordItem(CR, bc, due_date);
+				CR.addOrderItems(oLine);
+			}
+			model.setRowCount(0);
+			// for(int i=0; i<model.getRowCount(); i++){
+			// 	model.removeRow(i);
+			// }
+			
+	    });
+		JButton deleteBookButton = new JButton("Delete Order Line");
+		deleteBookButton.addActionListener(evt -> {
+			if (bookTable.getSelectedRow()>-1){
+				model.removeRow(bookTable.getSelectedRow());
+			}
+	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);
+		addBookButtonPanel.add(deleteBookButton);
 		outerMiddle.add(addBookButtonPanel, BorderLayout.CENTER);
 		
 	}
@@ -114,19 +153,11 @@ public class AddCheckoutWindow extends JFrame implements LibWindow
 		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
 		lowerPanel.add(backToMainButn);
 	}
-	private void attachAddCheckoutButtonListener(JButton butn, JTextField orderNumber) {
-		butn.addActionListener(evt -> {
-			String oNumber = orderNumber.getText();
-			CheckoutRecord.addRecord(oNumber);
-			orderNumber.setText(null);
-	    });
-	}
-
+	
 	// @Override
     public void init() {
         mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		defineTopPanel();
 		defineOuterMiddle();
         defineLowerPanel();
 		mainPanel.add(topPanel, BorderLayout.NORTH);
