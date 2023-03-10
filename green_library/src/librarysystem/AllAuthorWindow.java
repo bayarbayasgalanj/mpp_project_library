@@ -34,14 +34,19 @@ public class AllAuthorWindow extends JFrame implements LibWindow {
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
 	
-	private JPanel mainPanel;
-	private JPanel topPanel;
-	private JPanel middlePanel;
-	private JPanel lowerPanel;
+	JPanel mainPanel;
+	JPanel topPanel;
+	JPanel middlePanel;
+	JPanel lowerPanel;
     //Singleton class
 	private AllAuthorWindow() {}
 	
 	public void init() {
+
+		// private JPanel mainPanel;
+		// private JPanel topPanel;
+		// private JPanel middlePanel;
+		// private JPanel lowerPanel;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
