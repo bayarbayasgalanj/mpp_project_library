@@ -31,7 +31,7 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 	private AllBookCopyWindow() {}
 	
 	public void init() {
-		model = new DefaultTableModel(new String[] { "№","Book","Copy Number","Is Available" },0);
+		model.setRowCount(0);
 		JPanel mainPanel;
 		JPanel topPanel;
 		JPanel middlePanel;
@@ -61,6 +61,7 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 			   return false;
 			}
 		};
+		bookTable.setAutoCreateRowSorter(true); 
 		bookTable.setModel(model);
 		bookTable.setRowSelectionAllowed(true);
 		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
