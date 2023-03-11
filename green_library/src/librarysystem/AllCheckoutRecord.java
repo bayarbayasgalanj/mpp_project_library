@@ -124,15 +124,15 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 		});
 		topPanel.add(searcbtn);
 
-		JButton duebtn = new JButton("Check due date");
-		duebtn.addActionListener(evt -> {
-            List<CheckoutRecord> record = da.readBookCopyRecords();
-			model.setRowCount(0);
-            for (CheckoutRecord cri : record) {
-                model.addRow(new Object[]{ cri.getBook(), cri.getMember(), cri.getDueDate()});
-            }
-		});
-		topPanel.add(duebtn);
+		// JButton duebtn = new JButton("Check due date");
+		// duebtn.addActionListener(evt -> {
+        //     List<CheckoutRecord> record = da.readBookCopyRecords();
+		// 	model.setRowCount(0);
+        //     for (CheckoutRecord cri : record) {
+        //         model.addRow(new Object[]{ cri.getBook(), cri.getMember(), cri.getDueDate()});
+        //     }
+		// });
+		// topPanel.add(duebtn);
 	}
 	
 	public void defineMiddlePanel() {

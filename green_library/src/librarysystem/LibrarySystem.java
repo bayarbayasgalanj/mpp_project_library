@@ -32,7 +32,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JMenu checkout_menus;
 	JMenu member_menus;
 	JMenu address_menus;
-	JMenuItem book_copy_view,add_book_menu, author_menu, add_author_menu, address_menu, add_address_menu, login, allBookIds, allMemberIds, add_member_menu, checkout_menu, checkout_record, book_copy; 
+	JMenuItem book_copy_view,add_book_menu, author_menu, add_author_menu, due_record, address_menu, add_address_menu, login, allBookIds, allMemberIds, add_member_menu, checkout_menu, checkout_record, book_copy; 
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -43,6 +43,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllBookIdsWindow.INSTANCE,
 		AllAddressWindow.INSTANCE,
 		AddAddressWindow.INSTANCE,
+		checkDueDateWindow.INSTANCE,
 		AllCheckoutRecord.INSTANCE,
 		AddCheckoutWindow.INSTANCE,
 		AllAuthorWindow.INSTANCE,
@@ -111,6 +112,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		member_menus = new JMenu("Member");
 		checkout_menu = new JMenuItem("Checkout");
 		checkout_record = new JMenuItem("Checkout record");
+		due_record = new JMenuItem("Due checkout record");
 		book_copy = new JMenuItem("Book copy");
 		book_copy_view = new JMenuItem("All book copy");
 		add_book_menu = new JMenuItem("Add Book");
@@ -120,6 +122,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		address_menus.add(add_address_menu);
 		checkout_menus.add(checkout_menu);
 		checkout_menus.add(checkout_record);
+		checkout_menus.add(due_record);
 		menuBar.add(options);
 		menuBar.add(author_menus);
 		menuBar.add(book_menus);
@@ -138,6 +141,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		address_menu.addActionListener(new AllAddressListener());
 		checkout_record.addActionListener(new AllCheckoutListener());
 		checkout_menu.addActionListener(new AddCheckoutListener());
+		due_record.addActionListener(new DueCheckoutListener());
 		add_address_menu.addActionListener(new AddAddressListener());
 		author_menu.addActionListener(new AllAuthorListener());
 		add_author_menu.addActionListener(new AddAuthorListener());
@@ -154,8 +158,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		member_menus.add(add_member_menu);
 		// hideMenuLibrarian(false);
 		// hideMenuAdmin(false);
-		hideMenuLibrarian(true);
-		hideMenuAdmin(true);
+		hideMenuLibrarian(false);
+		hideMenuAdmin(false);
     }
 	// LIBRARIAN, ADMIN, BOTH;
 	public void hideMenuLibrarian(boolean show){
@@ -165,7 +169,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
 	}
 	public void hideMenuAdmin(boolean show){
-		JMenu[] hideMenus = {address_menus, author_menus};
+		JMenu[] hideMenus = {address_menus, author_menus, book_menus, member_menus};
 		for (JMenu m: hideMenus){
 			m.setVisible(show);
 		}
@@ -309,6 +313,19 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AddAddressWindow.INSTANCE);
 			AddAddressWindow.INSTANCE.setVisible(true);
+		}
+    }
+	class DueCheckoutListener implements ActionListener {
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			checkDueDateWindow.INSTANCE.init();
+			checkDueDateWindow.INSTANCE.pack();
+			checkDueDateWindow.INSTANCE.setVisible(true);
+			// AddAddressWindow.INSTANCE.pack();
+			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			Util.centerFrameOnDesktop(checkDueDateWindow.INSTANCE);
+			checkDueDateWindow.INSTANCE.setVisible(true);
 		}
     }
 	@Override
