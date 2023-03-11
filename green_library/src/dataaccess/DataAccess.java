@@ -27,5 +27,5 @@ public interface DataAccess {
 	public void removeAuthor(String addr_key); 
 	public String getAuthorByKey(String addr); 
 	public HashMap<String, Author> readAuthorMap();
-	void saveNewCheckoutRecord(CheckoutRecord record);
+	public void saveNewCheckoutRecord(CheckoutRecord record);
 }

@@ -35,11 +35,12 @@ final public class CheckoutRecord implements Serializable {
 	// 	member = mem;
 	// 	itemIds = new ArrayList<CheckoutRecordItem>();
 	// }
-	public CheckoutRecord(LibraryMember member, BookCopy bc, LocalDate d) {
+	public CheckoutRecord(String orderNum,LibraryMember member, BookCopy bc, LocalDate d) {
 		recordID = member;
         bookCopy = bc;
 		bookID = bc.getBook();
         due_date = d;
+		orderNumber = orderNum;
 	}
 	// public LibraryMember getMember() {
 	// 	return recordID;
@@ -64,7 +65,7 @@ final public class CheckoutRecord implements Serializable {
 		return orderNumber;
 	}
 	public LibraryMember getMember() {
-		return member;
+		return recordID;
 	}
 	public String getId() {
 		return orderNumber;

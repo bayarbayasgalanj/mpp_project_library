@@ -165,7 +165,7 @@ public class DataAccessFacade implements DataAccess {
 		}
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public HashMap<String, CheckoutRecord> readCheckoutMap() {
 		// TODO Auto-generated method stub
 		Object retObj = readFromStorage(StorageType.RECORD);
