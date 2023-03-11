@@ -3,10 +3,12 @@ package librarysystem;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,6 +27,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
 import business.*;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
 public class AddCheckoutWindow extends JFrame implements LibWindow {
     public static final AddCheckoutWindow INSTANCE = new AddCheckoutWindow();
 	ControllerInterface ci = new SystemController();
@@ -64,6 +68,8 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
         for(LibraryMember s: mem_ids) { memberList.addItem(s);}
 
 		JComboBox<String> rentType = new JComboBox<String>();
+		JTextField memberId = new JTextField();
+		JTextField bookIsbn = new JTextField();
         rentType.addItem("7");
 		rentType.addItem("21");
 		
@@ -79,17 +85,17 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
 		rightPanel.add(orderNumber);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-		leftPanel.add(new JLabel("Select a Book"));
+		leftPanel.add(new JLabel("Book ISBN Number"));
 		leftPanel.add(Box.createRigidArea(new Dimension(0,22)));
-		rightPanel.add(bookList);
+		rightPanel.add(bookIsbn);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-		leftPanel.add(new JLabel("Due Date"));
-		leftPanel.add(Box.createRigidArea(new Dimension(0,15)));
-		rightPanel.add(rentType);
+		// leftPanel.add(new JLabel("Due Date"));
+		// leftPanel.add(Box.createRigidArea(new Dimension(0,15)));
+		// rightPanel.add(rentType);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-		leftPanel.add(new JLabel("Member"));
+		leftPanel.add(new JLabel("Member ID"));
 		leftPanel.add(Box.createRigidArea(new Dimension(0,32)));
-		rightPanel.add(memberList);
+		rightPanel.add(memberId);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
 		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
@@ -97,20 +103,36 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 			}
 		};
 		
-		DefaultTableModel model = new DefaultTableModel(new String[] { "Book", "Due Date" },0);
+		DefaultTableModel model = new DefaultTableModel(new String[] { "Book","Member", "Due Date" },0);
 		bookTable.setModel(model);
 		bookTable.setRowSelectionAllowed(true);
 		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 
 		JButton inputOrder = new JButton("Input Order");
 		inputOrder.addActionListener(evt -> {
-			Book bName = (Book) bookList.getSelectedItem();
-			String rName = (String) rentType.getSelectedItem().toString();
-			if(bName.getMaxCheckoutLength() < Integer.parseInt(rName)){
-				JOptionPane.showMessageDialog(this,"This book: "+bName+" cannot rent this day "+rName+"!!");
-			}else{
-				model.addRow(new Object[]{ bName, rName});
+			if (memberId.getText().isEmpty() || bookIsbn.getText().isEmpty())
+                JOptionPane.showMessageDialog(null, "Please fill all the fields!");
+			else if (!ci.allMemberIds().contains(memberId.getText()))
+                JOptionPane.showMessageDialog(null, "Member ID does not exist!");
+			else if (!ci.allBookIds().contains(bookIsbn.getText()))
+                JOptionPane.showMessageDialog(null, "Book ISBN does not exist!");
+                // Validation: Book Availability
+            // else if (!ci.getBook(bookIsbn.getText()).isAvailable()) {
+            //     Book book = ci.getBook(bookIsbn.getText());
+            //     JOptionPane.showMessageDialog(null, String.format("Book: %s(%s) is not available now!", book.getTitle(), book.getIsbn()));
+            else if (!ci.getBook(bookIsbn.getText()).isAvailable()) {
+				Book book = ci.getBook(bookIsbn.getText());
+				JOptionPane.showMessageDialog(null, String.format("Book: %s(%s) is not available now!", book.getTitle(), book.getIsbn()));
+			} else {
+				Book bName = ci.getBook(bookIsbn.getText());
+				LibraryMember mName = ci.getMember(memberId.getText());
+				LocalDate myObj = LocalDate.now();
+				// String rName = rentType.getSelectedItem().toString();
+				model.addRow(new Object[]{ bName, mName,myObj.plusDays(bName.getMaxCheckoutLength())});
+				bookIsbn.setText(null);
+				memberId.setText(null);
 			}
+			
 		});
 		rightPanel.add(inputOrder);
 		topPanel.add(leftPanel);

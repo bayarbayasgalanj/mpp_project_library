@@ -151,4 +151,21 @@ public class SystemController implements ControllerInterface {
 		}
 		return retval;
 	}
+
+	@Override
+    public Book getBook(String bookIsbn) {
+        DataAccess da = new DataAccessFacade();
+        HashMap<String, Book> books = da.readBooksMap();
+        if (books.containsKey(bookIsbn))
+            return books.get(bookIsbn);
+        return null;
+    }
+	@Override
+    public LibraryMember getMember(String memberId) {
+        DataAccess da = new DataAccessFacade();
+        HashMap<String, LibraryMember> members = da.readMemberMap();
+        if (members.containsKey(memberId))
+            return members.get(memberId);
+        return null;
+    }
 }

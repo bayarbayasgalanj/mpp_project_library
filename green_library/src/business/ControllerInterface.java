@@ -20,4 +20,6 @@ public interface ControllerInterface {
 	public List<String> allAuthors();
 	public List<Author> allAuthorsObj();
 	public List<LibraryMember> allMembersObs();
+	Book getBook(String bookIsbn);
+	LibraryMember getMember(String text);
 }
