@@ -43,12 +43,6 @@ public class AddMemberWindow extends JFrame implements LibWindow
 	private JPanel topPanel;
 	private JPanel outerMiddle;
 	private JPanel lowerPanel;
-
-	JTextField firstName;
-	JTextField lastName;
-	JTextField telephone;
-	JComboBox<Address> address_list = new JComboBox<Address>();
-	JTextField memberId;
 	
 	public AddMemberWindow() {}
 
@@ -63,6 +57,12 @@ public class AddMemberWindow extends JFrame implements LibWindow
 	public void defineOuterMiddle() {
 		outerMiddle = new JPanel();
 		outerMiddle.setLayout(new BorderLayout());
+		
+		JTextField firstName;
+		JTextField lastName;
+		JTextField telephone;
+		JComboBox<Address> address_list = new JComboBox<Address>();
+		JTextField memberId;
 		
 		//set up left and right panels		
 		JPanel middlePanel = new JPanel();
@@ -241,18 +241,18 @@ public class AddMemberWindow extends JFrame implements LibWindow
 	}
 
 	public String getFirstnameValue() {
-		return firstName.getText();
+		return "firstName.getText()";
 	}
 
 	public String getLastnameString() {
-		return lastName.getText();
+		return "lastName.getText()";
 	}
 
 	public String getTelephoneValue() {
-		return telephone.getText();
+		return "1234567890";
 	}
 
 	public String getMemberIdValue() {
-		return memberId.getText();
+		return "memberId.getText()";
 	}
 }
