@@ -64,7 +64,6 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 
 		JComboBox<String> rentType = new JComboBox<String>();
         rentType.addItem("7");
-		rentType.addItem("14");
 		rentType.addItem("21");
 		
 		JPanel middlePanel = new JPanel();

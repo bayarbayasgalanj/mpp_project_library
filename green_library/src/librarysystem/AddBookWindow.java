@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.text.NumberFormatter;
 import javax.swing.*;
 import java.awt.*;
 
@@ -46,9 +48,9 @@ public class AddBookWindow extends JFrame implements LibWindow
 
 	private JTextField isbn;
 	private JTextField title;
-	private JTextField maxCheckoutLength;
 	private JList<Author> author_list;
-	
+	private String maxCheckoutLength="maxCheckoutLength";
+
 	public AddBookWindow() {}
 
 	public void defineTopPanel() {
@@ -79,8 +81,22 @@ public class AddBookWindow extends JFrame implements LibWindow
 
 		isbn = new JTextField(10);
         title = new JTextField(10);
-        maxCheckoutLength = new JTextField(10);
-        maxCheckoutLength.setText("1");
+		
+		NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(1);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        // If you want the value to be committed on each keystroke instead of focus lost
+        formatter.setCommitsOnValidEdit(true);
+        JFormattedTextField countField = new JFormattedTextField(formatter);
+        // countField.setText("1");
+
+        JComboBox<String> rentType = new JComboBox<String>();
+        rentType.addItem("7");
+		rentType.addItem("21");
+
         List<Author> ids = ci.allAuthorsObj();
         DefaultListModel<Author> model = new DefaultListModel<>();
 		System.out.println("Address Len:"+ids.size());
@@ -96,16 +112,20 @@ public class AddBookWindow extends JFrame implements LibWindow
         leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(new JLabel("Max Checkout Length"));
         leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
-        leftPanel.add(new JLabel("Authors"));
-        leftPanel.add(Box.createRigidArea(new Dimension(0,120)));
+        leftPanel.add(new JLabel("Copy Count"));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
+		leftPanel.add(new JLabel("Authors"));
+        leftPanel.add(Box.createRigidArea(new Dimension(0,132)));
         
         rightPanel.add(isbn);
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
         rightPanel.add(title);
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-        rightPanel.add(maxCheckoutLength);
+        rightPanel.add(rentType);
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-        rightPanel.add(new JScrollPane(author_list));
+        rightPanel.add(countField);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		rightPanel.add(new JScrollPane(author_list));
         rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
         
 		middlePanel.add(leftPanel);
@@ -118,7 +138,7 @@ public class AddBookWindow extends JFrame implements LibWindow
 			DataAccess da = new DataAccessFacade();
 			String i = isbn.getText();
 			String t = title.getText();
-			int m = Integer.parseInt(maxCheckoutLength.getText());
+			int m = Integer.parseInt(rentType.getSelectedItem().toString());
 			List<Author> authors = new ArrayList<Author>();
             if (author_list!=null){
                 for (Author author: author_list.getSelectedValuesList()){
@@ -140,6 +160,10 @@ public class AddBookWindow extends JFrame implements LibWindow
 				System.out.println("MULTIPLE:"+authors);
 				Book book = new Book(i, t, m, authors);
             	System.out.println("BOOOK:"+book);
+				int len = Integer.parseInt(countField.getValue().toString());
+				for (int ii=1; ii<=len; ii++){
+					book.addCopy();
+				}
             	da.saveNewBook(book);
 
 				List<Book> book_ids = ci.allBookObj();
@@ -153,7 +177,6 @@ public class AddBookWindow extends JFrame implements LibWindow
             	// clear
 				isbn.setText(null);
 				title.setText(null);
-				maxCheckoutLength.setText("1");
 			} catch (RuleException e){
 				JOptionPane.showMessageDialog(AddBookWindow.this, e.getMessage());
 			}
@@ -223,7 +246,7 @@ public class AddBookWindow extends JFrame implements LibWindow
 	}
 
 	public String getMaxLengthValue() {
-		return maxCheckoutLength.getText();
+		return maxCheckoutLength;
 	}
 
 	public int getAuthorsCount(){

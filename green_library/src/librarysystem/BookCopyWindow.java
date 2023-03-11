@@ -79,7 +79,7 @@ public class BookCopyWindow extends JFrame implements LibWindow {
         // If you want the value to be committed on each keystroke instead of focus lost
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField countField = new JFormattedTextField(formatter);
-        countField.setText("1");
+        // countField.setText("1");
         leftPanel.add(checkoutLabel);
 		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(countLabel);
