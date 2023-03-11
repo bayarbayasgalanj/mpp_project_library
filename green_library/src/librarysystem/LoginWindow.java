@@ -198,6 +198,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 						LibrarySystem.INSTANCE.hideMenuLibrarian(true);
 						LibrarySystem.INSTANCE.hideMenuAdmin(true);
 					}
+					LibrarySystem.hideAllWindows();
+    				LibrarySystem.INSTANCE.setVisible(true);
 				}else{
 					JOptionPane.showMessageDialog(this,"Sorry Username or Password incorrect!!!");
 				}
