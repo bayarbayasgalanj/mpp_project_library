@@ -29,7 +29,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 	public static final AllCheckoutRecord INSTANCE = new AllCheckoutRecord();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
-	
+	public static DefaultTableModel model = new DefaultTableModel(new String[] { "Book", "Member", "Due Date" },0);
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
@@ -47,7 +47,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
 		// List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
 		List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
-		DefaultTableModel model = new DefaultTableModel(new String[] { "Book", "Member", "Due Date" },0);
+		
 		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 			   return false;
