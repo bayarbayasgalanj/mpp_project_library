@@ -54,6 +54,28 @@ public class DataAccessFacade implements DataAccess {
 		cops.put(Id, cop);
 		saveToStorage(StorageType.BOOKCOPY, cops);	
 	}
+	@Override
+	public void updateBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String Id = book.getIsbn();
+		books.replace(Id, book);
+		// System.out.println("-------"+cops.size()+"  "+cop.isAvailable()+"  "+cop+" UPDATED:"+cops.get(Id).isAvailable());
+		
+		saveToStorage(StorageType.BOOKS, books);	
+	}
+	@Override
+	public void updateBookCopy(BookCopy cop) {
+		HashMap<String, BookCopy> cops = readBookCopyMap();
+		String Id = cop.getId();
+		cops.replace(Id, cop);
+		System.out.println("-------"+cops.size()+"  "+cop.isAvailable()+"  "+cop+" UPDATED:"+cops.get(Id).isAvailable());
+		updateBook(cop.getBook());
+
+		
+		saveToStorage(StorageType.BOOKCOPY, cops);	
+		HashMap<String, BookCopy> cops2 = readBookCopyMap();
+		System.out.println("+++++AFTER:"+cops2.get(Id).isAvailable());
+	}
 	// @Override
     // public void saveNewCheckoutRecord(CheckoutRecord record) {
 
