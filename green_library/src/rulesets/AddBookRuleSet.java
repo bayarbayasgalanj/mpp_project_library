@@ -37,16 +37,8 @@ public class AddBookRuleSet implements RuleSet {
 	}
 	private void isNumberRule() throws RuleException {
 		String val = addBook.getIsbnValue().trim();
-		try{
-			Integer.parseInt(val);
-		} catch (NumberFormatException e){
-			throw new RuleException("ISBN must be numeric");
-		}
-		if(val.length() != 10) {
-			throw new RuleException("ISBN must be 10 digits");
+		if(val.length() != 8) {
+			throw new RuleException("ISBN length must be 8");
 		}
 	}
-
-
-	
 }

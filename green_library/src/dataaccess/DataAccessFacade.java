@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,6 @@ import business.CheckoutRecord;
 import business.LibraryMember;
 import business.Address;
 import business.Author;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
@@ -208,6 +209,35 @@ public class DataAccessFacade implements DataAccess {
 			return (HashMap<String, User>) retObj;
 		}
 	}
+
+	@Override
+    public List<CheckoutRecord> readUserRecords(LibraryMember member) {
+        HashMap<String, CheckoutRecord> records = readUserRecords();
+        List<CheckoutRecord> userRecords = new ArrayList<>();
+        records.forEach((k, v) -> {
+            if (v.getMember().getMemberId().equals(member.getMemberId())){
+				userRecords.add(v);
+			}
+        });
+        // Collections.sort(userRecords);
+        return userRecords;
+    }
+
+	@Override
+    public List<CheckoutRecord> readBookCopyRecords() {
+        HashMap<String, CheckoutRecord> records = readUserRecords();
+        // CheckoutRecord result = null;
+		List<CheckoutRecord> userRecords = new ArrayList<>();
+		records.forEach((k, v) -> {
+			if(v.getDueDate().isBefore(LocalDate.now()))
+				userRecords.add(v);
+		});
+        // for (CheckoutRecord record : records.values()) {
+        //     if (record.getDueDate().isBefore(LocalDate.now()))
+        //         result = record;
+        // }
+        return userRecords;
+    }
 	
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
