@@ -104,9 +104,10 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 			// if (memberId.getText().isEmpty())
             //     JOptionPane.showMessageDialog(null, "Please fill all the fields!");
                 // Validation: Member ID exists
-            if (!ci.allMemberIds().contains(memberId.getText()))
+            // if (!ci.allMemberIds().contains(memberId.getText()))
+			if (da.getMemberById(memberId.getText())==null){
                 JOptionPane.showMessageDialog(null, "Member ID does not exist!");
-            else {
+            }else {
                 LibraryMember member = ci.getMember(memberId.getText());
 //                System.out.println(member);
 
