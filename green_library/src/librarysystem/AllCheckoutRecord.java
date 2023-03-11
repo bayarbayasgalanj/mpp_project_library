@@ -101,10 +101,10 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 
 		JButton searcbtn = new JButton("Search");
         searcbtn.addActionListener(evt -> {
-			if (memberId.getText().isEmpty())
-                JOptionPane.showMessageDialog(null, "Please fill all the fields!");
+			// if (memberId.getText().isEmpty())
+            //     JOptionPane.showMessageDialog(null, "Please fill all the fields!");
                 // Validation: Member ID exists
-            else if (!ci.allMemberIds().contains(memberId.getText()))
+            if (!ci.allMemberIds().contains(memberId.getText()))
                 JOptionPane.showMessageDialog(null, "Member ID does not exist!");
             else {
                 LibraryMember member = ci.getMember(memberId.getText());
