@@ -59,10 +59,16 @@ public class TestData {
 		// allBooks
 		List<BookCopy> cops = new ArrayList<BookCopy>();
 		for (Book b: allBooks){
-			for (BookCopy bc: b.getCopies()){
-				cops.add(bc);
+			if (b.getIsbn()!="11-11111"){
+				for (BookCopy bc: b.getCopies()){
+					cops.add(bc);
+				}
 			}
+			
 		}
+		// Book book = new Book("11-11111", "Harry Potter", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1)));
+		BookCopy cop = new BookCopy(allBooks.get(4), 1, false);
+		cops.add(cop);
 		DataAccessFacade.loadBookCopyMap(cops);
 	}
 	
@@ -131,7 +137,8 @@ public class TestData {
 			add(new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))));
 			add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
 			add(new Book("99-22223", "Thinking Java", 21, Arrays.asList(allAuthors.get(3))));
-			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));		
+			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));	
+			add(new Book("11-11111", "Harry Potter", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))));	
 		}
 	};
 	

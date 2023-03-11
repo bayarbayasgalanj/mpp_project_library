@@ -38,6 +38,7 @@ final public class CheckoutRecord implements Serializable {
 	public CheckoutRecord(String orderNum,LibraryMember member, BookCopy bc, LocalDate d) {
 		recordID = member;
         bookCopy = bc;
+		bookCopy.changeAvailability();
 		bookID = bc.getBook();
         due_date = d;
 		orderNumber = orderNum;
