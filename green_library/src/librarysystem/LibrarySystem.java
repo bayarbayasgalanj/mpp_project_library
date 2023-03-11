@@ -83,7 +83,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	//for Windows file system
 //    	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
     	//for unix file system
-    	pathToImage = currDirectory+"/src/librarysystem/library.jpg";
+    	pathToImage = currDirectory+"/green_library/src/librarysystem/green_library2.png";
     	
     }
     
