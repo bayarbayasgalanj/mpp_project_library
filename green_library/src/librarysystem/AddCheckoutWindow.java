@@ -127,9 +127,16 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 			for(int i=0; i<model.getRowCount(); i++){
 				Book b = (Book)model.getValueAt(i, 0);
 				int due_date = Integer.parseInt(model.getValueAt(i, 1).toString());
-				BookCopy bc = b.getCopies()[0];
-				CheckoutRecordItem oLine = new CheckoutRecordItem(CR, bc, due_date);
-				CR.addOrderItems(oLine);
+				BookCopy bc = b.getNextAvailableCopy();
+				if(bc==null){
+					JOptionPane.showMessageDialog(this,"This book: "+b+" don't available!!!");
+
+				}else{
+					bc.changeAvailability();
+					CheckoutRecordItem oLine = new CheckoutRecordItem(CR, bc, due_date);
+					CR.addOrderItems(oLine);
+				}
+				
 			}
 			model.setRowCount(0);
 			// for(int i=0; i<model.getRowCount(); i++){
