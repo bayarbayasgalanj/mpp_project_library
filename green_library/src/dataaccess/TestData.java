@@ -59,16 +59,16 @@ public class TestData {
 		// allBooks
 		List<BookCopy> cops = new ArrayList<BookCopy>();
 		for (Book b: allBooks){
-			if (b.getIsbn()!="11-11111"){
-				for (BookCopy bc: b.getCopies()){
-					cops.add(bc);
-				}
+			// if (b.getIsbn()!="11-11111"){
+			for (BookCopy bc: b.getCopies()){
+				cops.add(bc);
 			}
+			// }
 			
 		}
 		// Book book = new Book("11-11111", "Harry Potter", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1)));
-		BookCopy cop = new BookCopy(allBooks.get(4), 1, false);
-		cops.add(cop);
+		// BookCopy cop = new BookCopy(allBooks.get(4), 1, false);
+		// cops.add(cop);
 		DataAccessFacade.loadBookCopyMap(cops);
 	}
 	
@@ -87,6 +87,7 @@ public class TestData {
 	public void authorData(){
 		// System.out.println("AUTHOR--------"+allAuthors);
 		DataAccessFacade.loadRecordMap(allRecords);	
+		DataAccessFacade.loadAuthorMap(allAuthors);	
 	}
 	//create library members
 	public void libraryMemberData() {
