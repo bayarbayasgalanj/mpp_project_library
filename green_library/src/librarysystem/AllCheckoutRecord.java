@@ -39,7 +39,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 	private AllCheckoutRecord() {}
 	
 	public void init() {
-		model = new DefaultTableModel(new String[] { "Book", "Member", "Due Date" },0);
+		model.setRowCount(0);
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
