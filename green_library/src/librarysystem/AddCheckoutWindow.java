@@ -166,20 +166,29 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 				LibraryMember myMember = (LibraryMember)model.getValueAt(i, 1);
 				LocalDate myDate = (LocalDate)model.getValueAt(i, 2);
 				BookCopy bc = b.getNextAvailableCopy();
+				System.out.println("BURUU "+bc);
 				if(bc==null){
 					JOptionPane.showMessageDialog(this,"This book: "+b+" don't available!!!");
 
 				}else{
-					bc.changeAvailability();
-					DataAccess da = new DataAccessFacade();
-					
-					System.out.println(bc+" " +bc.isAvailable());
-					CheckoutRecord oLine = new CheckoutRecord(oNumber,myMember, bc, myDate);
-					// CR.addOrderItems(oLine);
-					// List<CheckoutRecord> idss = ci.allCheckoutRecordObj();
-					da.saveNewCheckoutRecord(oLine);
-					String random2 = java.util.UUID.randomUUID().toString().replace("-", "");
-					orderNumber.setText(random2);
+					if (!bc.isAvailable()){
+						JOptionPane.showMessageDialog(this,"This book: "+b+" don't available!!!");
+					}else{
+						System.out.println(bc+" " +bc.isAvailable());
+						bc.changeAvailability();
+						DataAccess da = new DataAccessFacade();
+						// List<CheckoutRecord> rrrs = da.readBookCopyRecords();
+						// DataAccess da = new DataAccessFacade();
+						da.updateBookCopy(bc);
+						// System.out.println(bc+" " +bc.isAvailable());
+						CheckoutRecord oLine = new CheckoutRecord(oNumber,myMember, bc, myDate);
+						da.updateBookCopy(bc);
+						// CR.addOrderItems(oLine);
+						// List<CheckoutRecord> idss = ci.allCheckoutRecordObj();
+						da.saveNewCheckoutRecord(oLine);
+						String random2 = java.util.UUID.randomUUID().toString().replace("-", "");
+						orderNumber.setText(random2);
+					}
 				}
 				
 			}

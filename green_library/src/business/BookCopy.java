@@ -15,13 +15,13 @@ final public class BookCopy implements Serializable {
 	private Book book;
 	private int copyNum;
 	private boolean isAvailable;
-	private String copyId;
+	// private String copyId;
 	// private BookCopy[] copies;
 	public BookCopy(Book book, int copyNum, boolean isAvailable) {
 		this.book = book;
 		this.copyNum = copyNum;
 		this.isAvailable = isAvailable;
-		this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
+		// this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
 		DataAccess da = new DataAccessFacade();
         da.saveNewBookCopy(this);
 	}
@@ -29,12 +29,12 @@ final public class BookCopy implements Serializable {
 	BookCopy(Book book, int copyNum) {
 		this.book = book;
 		this.copyNum = copyNum;
-		this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
+		// this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBookCopy(this);
 	}
 	public String getId(){
-		return copyId;
+		return book.getIsbn()+""+copyNum;
 	}
 	
 	public boolean isAvailable() {
@@ -53,7 +53,7 @@ final public class BookCopy implements Serializable {
 		isAvailable = !isAvailable;
 	}
 	public String toString() {
-		return book.toString();
+		return book.getIsbn()+" COPYN:"+copyNum;
 	}
 	@Override
 	public boolean equals(Object ob) {

@@ -53,6 +53,7 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 		List<BookCopy> ids = ci.allBookCopyObj();
 		int i=0;
 		for(BookCopy s: ids) {
+			// System.out.println("");
 			model.addRow(new Object[]{ ""+(i+1), s.getBook().toString(),""+ s.getCopyNum(), ""+s.isAvailable()});
 			i++;
 		}
