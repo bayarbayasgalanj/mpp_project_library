@@ -161,7 +161,7 @@ public class AddBookWindow extends JFrame implements LibWindow
 				Book book = new Book(i, t, m, authors);
             	System.out.println("BOOOK:"+book);
 				int len = Integer.parseInt(countField.getValue().toString());
-				for (int ii=1; ii<=len; ii++){
+				for (int ii=1; ii<len; ii++){
 					book.addCopy();
 				}
             	da.saveNewBook(book);
