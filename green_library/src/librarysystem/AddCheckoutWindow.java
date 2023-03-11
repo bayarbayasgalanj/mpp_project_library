@@ -162,6 +162,8 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 					// CR.addOrderItems(oLine);
 					// List<CheckoutRecord> idss = ci.allCheckoutRecordObj();
 					da.saveNewCheckoutRecord(oLine);
+					String random2 = java.util.UUID.randomUUID().toString().replace("-", "");
+					orderNumber.setText(random2);
 				}
 				
 			}
