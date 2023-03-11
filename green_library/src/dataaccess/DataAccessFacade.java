@@ -76,6 +76,15 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, BookCopy> cops2 = readBookCopyMap();
 		System.out.println("+++++AFTER:"+cops2.get(Id).isAvailable());
 	}
+	@Override
+	public void updateMember(LibraryMember mem) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		String Id = mem.getMemberId();
+		mems.replace(Id, mem);
+		saveToStorage(StorageType.MEMBERS, mems);
+		HashMap<String, LibraryMember> mems2 = readMemberMap();
+		System.out.println("+++++AFTER:"+mems2.get(Id));
+	}
 	// @Override
     // public void saveNewCheckoutRecord(CheckoutRecord record) {
 
@@ -150,6 +159,15 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, Book> books = readBooksMap();
 		for (Map.Entry<String, Book> entry : books.entrySet()) {
 			if (entry.getValue().getIsbn().equals(isbn)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+	public LibraryMember getMemberById(String id){
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		for (Map.Entry<String, LibraryMember> entry : mems.entrySet()) {
+			if (entry.getValue().getMemberId().equals(id)){
 				return entry.getValue();
 			}
 		}
