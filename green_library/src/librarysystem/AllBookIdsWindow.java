@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import business.Book;
 import business.ControllerInterface;
@@ -23,11 +24,12 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
-	
+	public static DefaultTableModel model = new DefaultTableModel(new String[] { "№","ISBN","Title","Authors", "Max Checkout Length" },0);
 	//Singleton class
 	private AllBookIdsWindow() {}
 	
 	public void init() {
+		model = new DefaultTableModel(new String[] { "№","ISBN","Title","Authors", "Max Checkout Length" },0);
 		JPanel mainPanel;
 		JPanel topPanel;
 		JPanel middlePanel;
@@ -47,24 +49,21 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
 
 		List<Book> ids = ci.allBookObj();
-		String data[][] = new String[ids.size()][5];
-		String column[]={"№","ISBN","Title","Authors", "Max Checkout Length"};
-		for(int i=0; i<ids.size(); i++) {
-			Book s = ids.get(i);
-			data[i][0] = ""+(i+1);
-			data[i][1] = s.getIsbn();
-			data[i][2] = s.getTitle();
-			data[i][3] = s.getAuthorsName();
-			data[i][4] = ""+s.getMaxCheckoutLength();
+		int i=0;
+		for(Book s: ids) {
+			model.addRow(new Object[]{ ""+(i+1), s.getIsbn(), s.getTitle(), s.getAuthorsName(), ""+s.getMaxCheckoutLength()});
+			i++;
 		}
-		JTable bookTable = new JTable(data,column){
+		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 			   return false;
 			}
 		};
+		bookTable.setModel(model);
 		bookTable.setRowSelectionAllowed(true);
-		bookTable.getColumnModel().getColumn(0).setPreferredWidth(3);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		middlePanel.add(new JScrollPane(bookTable));
+
 		// defineLowerPanel();
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
