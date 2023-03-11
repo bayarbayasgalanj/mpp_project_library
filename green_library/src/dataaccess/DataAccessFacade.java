@@ -12,6 +12,7 @@ import java.util.Map;
 
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
 import business.Address;
 import business.Author;
@@ -21,12 +22,12 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD, AUTHOR, BOOKCOPY;
+		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD, AUTHOR, BOOKCOPY, RECORD;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
-			+ "/src/dataaccess/storage"; //for Unix file system
-//			+ "/green_library/src/dataaccess/storage"; //for Unix file system
+			// + "/src/dataaccess/storage"; //for Unix file system
+			+ "/green_library/src/dataaccess/storage"; //for Unix file system
 //			+ "\\src\\dataaccess\\storage"; //for Windows file system
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
@@ -52,6 +53,10 @@ public class DataAccessFacade implements DataAccess {
 		cops.put(Id, cop);
 		saveToStorage(StorageType.BOOKCOPY, cops);	
 	}
+	// @Override
+    // public void saveNewCheckoutRecord(CheckoutRecord record) {
+
+    // }
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,BookCopy> readBookCopyMap() {
 		//Returns a Map with name/value pairs being
@@ -84,6 +89,22 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);	
 	}
+
+	@Override
+	public void saveNewCheckoutRecord(CheckoutRecord record) {
+		HashMap<String, CheckoutRecord> records = readCheckoutMap();
+        String recordId = record.getId();
+        records.put(recordId, record);
+        saveToStorage(StorageType.RECORD, records);
+	}
+	@SuppressWarnings("unchecked")
+    public HashMap<String, CheckoutRecord> readUserRecords() {
+        // Returns a Map with name/value pairs being
+        HashMap<String, CheckoutRecord> map = (HashMap<String, CheckoutRecord>) readFromStorage(StorageType.RECORD);
+        if (map == null)
+            map = new HashMap<>();
+        return map;
+    }
 	
 	public void saveNewAddress(Address addr) {
 		HashMap<String, Address> addrs = readAddressMap();
@@ -143,6 +164,17 @@ public class DataAccessFacade implements DataAccess {
 			return (HashMap<String, LibraryMember>) retObj;
 		}
 	}
+
+	@Override
+	public HashMap<String, CheckoutRecord> readCheckoutMap() {
+		// TODO Auto-generated method stub
+		Object retObj = readFromStorage(StorageType.RECORD);
+		if (retObj==null){
+			return new HashMap<String, CheckoutRecord>();
+		}else{
+			return (HashMap<String, CheckoutRecord>) retObj;
+		}
+	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Author> readAuthorMap() {
@@ -195,6 +227,7 @@ public class DataAccessFacade implements DataAccess {
 		userList.forEach(user -> users.put(user.getId(), user));
 		saveToStorage(StorageType.USERS, users);
 	}
+	
  
 	static void loadMemberMap(List<LibraryMember> memberList) {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
@@ -210,6 +243,11 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, Author> addrs = new HashMap<String, Author>();
 		addrList.forEach(addr -> addrs.put(addr.getAuthorId(), addr));
 		saveToStorage(StorageType.AUTHOR, addrs);
+	}
+	static void loadRecordMap(List<CheckoutRecord> addrList) {
+		HashMap<String, CheckoutRecord> addrs = new HashMap<String, CheckoutRecord>();
+		addrList.forEach(addr -> addrs.put(addr.getId(), addr));
+		saveToStorage(StorageType.RECORD, addrs);
 	}
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
@@ -277,4 +315,16 @@ public class DataAccessFacade implements DataAccess {
 		}
 		private static final long serialVersionUID = 5399827794066637059L;
 	}
+
+
+
+
+
+
+
+
+
+
+
+	
 }

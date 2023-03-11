@@ -15,10 +15,11 @@ public interface ControllerInterface {
 	public List<User> allUserObj();
 	public List<String> allAddress();
 	public List<Address> allAddressObj();
-	public List<CheckoutRecord> allCheckoutRecord();
+	public List<CheckoutRecord> allCheckoutRecordObj();
 	public HashMap<String, String> allAddressHashmap();
 	public List<String> allAuthors();
 	public List<Author> allAuthorsObj();
+	// public List<CheckoutRecord> allCheckoutRecordObj();
 	public List<LibraryMember> allMembersObs();
 	Book getBook(String bookIsbn);
 	LibraryMember getMember(String text);

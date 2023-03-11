@@ -145,18 +145,23 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		addBookButton.addActionListener(evt -> {
 			String oNumber = orderNumber.getText();
 			LibraryMember mem = (LibraryMember)memberList.getSelectedItem();
-			CheckoutRecord CR = new CheckoutRecord(oNumber, mem);
+			// CheckoutRecord CR = new CheckoutRecord(oNumber, mem);
 			for(int i=0; i<model.getRowCount(); i++){
 				Book b = (Book)model.getValueAt(i, 0);
-				int due_date = Integer.parseInt(model.getValueAt(i, 1).toString());
+				LibraryMember myMember = (LibraryMember)model.getValueAt(i, 1);
+				LocalDate myDate = (LocalDate)model.getValueAt(i, 2);
 				BookCopy bc = b.getNextAvailableCopy();
 				if(bc==null){
 					JOptionPane.showMessageDialog(this,"This book: "+b+" don't available!!!");
 
 				}else{
 					bc.changeAvailability();
-					CheckoutRecordItem oLine = new CheckoutRecordItem(CR, bc, due_date);
-					CR.addOrderItems(oLine);
+					DataAccess da = new DataAccessFacade();
+					System.out.println(bc+" " +bc.isAvailable());
+					CheckoutRecord oLine = new CheckoutRecord(myMember, bc, myDate);
+					// CR.addOrderItems(oLine);
+					// List<CheckoutRecord> idss = ci.allCheckoutRecordObj();
+					da.saveNewCheckoutRecord(oLine);
 				}
 				
 			}

@@ -8,6 +8,7 @@ import business.Address;
 import business.Author;
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
 
 /**
@@ -31,6 +32,7 @@ public class TestData {
 		td.bookDataCopyData();
 		td.libraryMemberData();
 		td.userData();
+		td.recordData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println("--------------");
@@ -67,14 +69,18 @@ public class TestData {
 	public void userData() {
 		DataAccessFacade.loadUserMap(allUsers);
 	}
+
+	public void recordData() {
+		DataAccessFacade.loadUserMap(allUsers);
+	}
 	
 	public void addressesData(){
 		System.out.println("ADDRESS--------"+addresses);
 		DataAccessFacade.loadAddressMap(addresses);	
 	}
 	public void authorData(){
-		System.out.println("AUTHOR--------"+allAuthors);
-		DataAccessFacade.loadAuthorMap(allAuthors);	
+		// System.out.println("AUTHOR--------"+allAuthors);
+		DataAccessFacade.loadRecordMap(allRecords);	
 	}
 	//create library members
 	public void libraryMemberData() {
@@ -135,6 +141,13 @@ public class TestData {
 			add(new User("101", "101", Auth.LIBRARIAN));
 			add(new User("102", "102", Auth.ADMIN));
 			add(new User("103", "103", Auth.BOTH));
+		}
+	};
+	@SuppressWarnings("serial")
+	List<CheckoutRecord> allRecords = new ArrayList<CheckoutRecord>() {
+		{
+
+
 		}
 	};
 }

@@ -1,6 +1,7 @@
 package business;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,10 @@ final public class CheckoutRecord implements Serializable {
 	public static final CheckoutRecord INSTANCE = new CheckoutRecord();
 
 	private static final long serialVersionUID = 891234800414574886L;
+	private LibraryMember recordID;
+    private BookCopy bookCopy;
+	private Book bookID;
+	private LocalDate due_date;
 	public static List<String> record_datas = new ArrayList<String>() {
     {
         add("Item1");
@@ -25,11 +30,30 @@ final public class CheckoutRecord implements Serializable {
 	public static void addRecord(String title) {
     	record_datas.add(title);
     }
-    public CheckoutRecord(String orderNum, LibraryMember mem) {
-		orderNumber = orderNum;
-		member = mem;
-		itemIds = new ArrayList<CheckoutRecordItem>();
+    // public CheckoutRecord(String orderNum, LibraryMember mem) {
+	// 	orderNumber = orderNum;
+	// 	member = mem;
+	// 	itemIds = new ArrayList<CheckoutRecordItem>();
+	// }
+	public CheckoutRecord(LibraryMember member, BookCopy bc, LocalDate d) {
+		recordID = member;
+        bookCopy = bc;
+		bookID = bc.getBook();
+        due_date = d;
 	}
+	// public LibraryMember getMember() {
+	// 	return recordID;
+	// }
+	public BookCopy getBookCopy() {
+		return bookCopy;
+	}
+	public Book getBook() {
+		return bookID;
+	}
+	public LocalDate getDueDate(){
+		return due_date;
+	}
+
 	public void addOrderItems(CheckoutRecordItem item) {
 		itemIds.add(item);
 	}

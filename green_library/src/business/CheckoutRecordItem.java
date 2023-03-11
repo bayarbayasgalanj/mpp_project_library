@@ -1,6 +1,7 @@
 package business;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 /* Immutable */
 final public class CheckoutRecordItem implements Serializable {
 	private static final long serialVersionUID = 8348574886L;
@@ -8,9 +9,9 @@ final public class CheckoutRecordItem implements Serializable {
     private CheckoutRecord recordID;
     private BookCopy bookCopy;
 	private Book bookID;
-	private int due_date;
+	private LocalDate due_date;
     
-	public CheckoutRecordItem(CheckoutRecord record, BookCopy bc, int d) {
+	public CheckoutRecordItem(CheckoutRecord record, BookCopy bc, LocalDate d) {
 		recordID = record;
         bookCopy = bc;
 		bookID = bc.getBook();
@@ -26,7 +27,7 @@ final public class CheckoutRecordItem implements Serializable {
 	public Book getBook() {
 		return bookID;
 	}
-	public int getDueDate(){
+	public LocalDate getDueDate(){
 		return due_date;
 	}
 }

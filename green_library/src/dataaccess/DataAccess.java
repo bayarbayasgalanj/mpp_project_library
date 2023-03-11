@@ -6,6 +6,7 @@ import business.Address;
 import business.Author;
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
 
 public interface DataAccess { 
@@ -16,6 +17,7 @@ public interface DataAccess {
 	public HashMap<String,User> readUserMap();
 	public HashMap<String, LibraryMember> readMemberMap();
 	public HashMap<String, Address> readAddressMap();
+	public HashMap<String, CheckoutRecord> readCheckoutMap();
 	public void saveNewMember(LibraryMember member); 
 	public void saveNewAddress(Address addr); 
 	public void removeAddress(String addr_key); 
@@ -25,4 +27,5 @@ public interface DataAccess {
 	public void removeAuthor(String addr_key); 
 	public String getAuthorByKey(String addr); 
 	public HashMap<String, Author> readAuthorMap();
+	void saveNewCheckoutRecord(CheckoutRecord record);
 }

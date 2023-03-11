@@ -48,15 +48,16 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
 		// List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
 		List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
+		List<CheckoutRecord> ids = ci.allCheckoutRecordObj();
 		
 		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 			   return false;
 			}
 		};
-		if(crItems!=null){
-			for(CheckoutRecordItem cri: crItems){
-				model.addRow(new Object[]{ cri.getBook(), cri.getCheckOrder().getMember(), cri.getDueDate()});
+		if(ids!=null){
+			for(CheckoutRecord cri: ids){
+				model.addRow(new Object[]{ cri.getBook(), cri.getMember(), cri.getDueDate()});
 			}
 		}
 		bookTable.setModel(model);

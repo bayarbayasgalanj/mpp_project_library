@@ -97,13 +97,15 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 	@Override
-	public List<CheckoutRecord> allCheckoutRecord() {
+	public List<CheckoutRecord> allCheckoutRecordObj() {
 		DataAccess da = new DataAccessFacade();
 		List<CheckoutRecord> retval = new ArrayList<>();
-		
 		// da.readCheckoutMap().forEach(
         //     (key, value)
         //         -> retval.add(value));
+		if(da.readCheckoutMap()!=null) {
+			da.readCheckoutMap().forEach((key, value) -> retval.add(value));
+		}
 		return retval;
 	}
 	@Override
