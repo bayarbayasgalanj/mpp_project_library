@@ -7,6 +7,7 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.BookCopy;
 import business.LibraryMember;
 
 /**
@@ -27,6 +28,7 @@ public class TestData {
 		td.addressesData();
 		td.authorData();
 		td.bookData();
+		td.bookDataCopyData();
 		td.libraryMemberData();
 		td.userData();
 		DataAccess da = new DataAccessFacade();
@@ -44,12 +46,22 @@ public class TestData {
 	///create books
 	public void bookData() {
 		allBooks.get(0).addCopy();
-		allBooks.get(0).addCopy();
+		// allBooks.get(0).addCopy();
 		allBooks.get(1).addCopy();
 		allBooks.get(3).addCopy();
-		allBooks.get(2).addCopy();
+		// allBooks.get(2).addCopy();
 		allBooks.get(2).addCopy();
 		DataAccessFacade.loadBookMap(allBooks);
+	}
+	public void bookDataCopyData() {
+		// allBooks
+		List<BookCopy> cops = new ArrayList<BookCopy>();
+		for (Book b: allBooks){
+			for (BookCopy bc: b.getCopies()){
+				cops.add(bc);
+			}
+		}
+		DataAccessFacade.loadBookCopyMap(cops);
 	}
 	
 	public void userData() {

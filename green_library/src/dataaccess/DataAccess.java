@@ -5,10 +5,13 @@ import java.util.HashMap;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.BookCopy;
 import business.LibraryMember;
 
 public interface DataAccess { 
 	public HashMap<String,Book> readBooksMap();
+	public HashMap<String,BookCopy> readBookCopyMap();
+	public void saveNewBookCopy(BookCopy cop);
 	public void saveNewBook(Book book);
 	public HashMap<String,User> readUserMap();
 	public HashMap<String, LibraryMember> readMemberMap();

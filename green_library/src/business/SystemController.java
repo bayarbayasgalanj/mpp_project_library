@@ -79,11 +79,9 @@ public class SystemController implements ControllerInterface {
 	public List<BookCopy> allBookCopyObj() {
 		DataAccess da = new DataAccessFacade();
 		List<BookCopy> retval = new ArrayList<>();
-		if(da.readBooksMap()!=null) {
-			da.readBooksMap().forEach((key, value) -> {
-				for (BookCopy bc: value.getCopies()){
-					retval.add(bc);
-				}
+		if(da.readBookCopyMap()!=null) {
+			da.readBookCopyMap().forEach((key, value) -> {
+				retval.add(value);
 			});
 		}
 		return retval;

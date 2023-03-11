@@ -21,7 +21,7 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD, AUTHOR;
+		BOOKS, MEMBERS, USERS, ADDRESS, ORDERRECORD, AUTHOR, BOOKCOPY;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -44,6 +44,24 @@ public class DataAccessFacade implements DataAccess {
 		String bookId = book.getIsbn();
 		books.put(bookId, book);
 		saveToStorage(StorageType.BOOKS, books);	
+	}
+	@Override
+	public void saveNewBookCopy(BookCopy cop) {
+		HashMap<String, BookCopy> cops = readBookCopyMap();
+		String Id = cop.getId();
+		cops.put(Id, cop);
+		saveToStorage(StorageType.BOOKCOPY, cops);	
+	}
+	@SuppressWarnings("unchecked")
+	public  HashMap<String,BookCopy> readBookCopyMap() {
+		//Returns a Map with name/value pairs being
+		//   isbn -> Book
+		Object retObj = readFromStorage(StorageType.BOOKCOPY);
+		if (retObj==null){
+			return new HashMap<String, BookCopy>();
+		}else{
+			return (HashMap<String, BookCopy>) retObj;
+		}
 	}
 	public void removeAuthor(String addr_key) {
 		HashMap<String, Author> addrs = readAuthorMap();
@@ -157,6 +175,11 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, Book> books = new HashMap<String, Book>();
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
 		saveToStorage(StorageType.BOOKS, books);
+	}
+	static void loadBookCopyMap(List<BookCopy> copyList) {
+		HashMap<String, BookCopy> cops = new HashMap<String, BookCopy>();
+		copyList.forEach(cop -> cops.put(cop.getId(), cop));
+		saveToStorage(StorageType.BOOKCOPY, cops);
 	}
 	static void loadUserMap(List<User> userList) {
 		HashMap<String, User> users = new HashMap<String, User>();

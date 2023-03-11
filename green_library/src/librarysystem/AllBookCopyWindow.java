@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import business.Book;
 import business.BookCopy;
@@ -23,12 +24,14 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 	private static final long serialVersionUID = 1L;
 	public static final AllBookCopyWindow INSTANCE = new AllBookCopyWindow();
     ControllerInterface ci = new SystemController();
+	public static DefaultTableModel model = new DefaultTableModel(new String[] { "№","Book","Copy Number","Is Available" },0);
     private boolean isInitialized = false;
 	
 	//Singleton class
 	private AllBookCopyWindow() {}
 	
 	public void init() {
+		model = new DefaultTableModel(new String[] { "№","Book","Copy Number","Is Available" },0);
 		JPanel mainPanel;
 		JPanel topPanel;
 		JPanel middlePanel;
@@ -48,24 +51,19 @@ public class AllBookCopyWindow extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
 
 		List<BookCopy> ids = ci.allBookCopyObj();
-		String data[][] = new String[ids.size()][4];
-		String column[]={"№","Book","Copy Number","Is Available"};
-		for(int i=0; i<ids.size(); i++) {
-			BookCopy s = ids.get(i);
-			data[i][0] = ""+(i+1);
-			data[i][1] = s.getBook().toString();
-			data[i][2] = ""+s.getCopyNum();
-			data[i][3] = ""+s.isAvailable();
+		int i=0;
+		for(BookCopy s: ids) {
+			model.addRow(new Object[]{ ""+(i+1), s.getBook().toString(),""+ s.getCopyNum(), ""+s.isAvailable()});
+			i++;
 		}
-		JTable bookTable = new JTable(data,column){
+		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 			   return false;
 			}
 		};
+		bookTable.setModel(model);
 		bookTable.setRowSelectionAllowed(true);
-		bookTable.getColumnModel().getColumn(0).setPreferredWidth(3);
-		bookTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-		bookTable.getColumnModel().getColumn(2).setPreferredWidth(3);
+		bookTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		middlePanel.add(new JScrollPane(bookTable));
 		// defineLowerPanel();
 		JButton backToMainButn = new JButton("<= Back to Main");

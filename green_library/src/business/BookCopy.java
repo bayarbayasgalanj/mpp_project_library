@@ -2,6 +2,10 @@ package business;
 
 import java.io.Serializable;
 
+import dataaccess.DataAccessFacade;
+
+import dataaccess.DataAccess;
+
 /**
  * Immutable class
  */
@@ -11,17 +15,26 @@ final public class BookCopy implements Serializable {
 	private Book book;
 	private int copyNum;
 	private boolean isAvailable;
+	private String copyId;
 	BookCopy(Book book, int copyNum, boolean isAvailable) {
 		this.book = book;
 		this.copyNum = copyNum;
 		this.isAvailable = isAvailable;
+		this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
+		DataAccess da = new DataAccessFacade();
+        da.saveNewBookCopy(this);
 	}
 	
 	BookCopy(Book book, int copyNum) {
 		this.book = book;
 		this.copyNum = copyNum;
+		this.copyId = java.util.UUID.randomUUID().toString().replace("-", "");
+		DataAccess da = new DataAccessFacade();
+		da.saveNewBookCopy(this);
 	}
-	
+	public String getId(){
+		return copyId;
+	}
 	
 	public boolean isAvailable() {
 		return isAvailable;
