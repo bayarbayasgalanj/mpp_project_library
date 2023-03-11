@@ -144,11 +144,16 @@ public class AddBookWindow extends JFrame implements LibWindow
                 for (Author author: author_list.getSelectedValuesList()){
                     authors.add(author);
                 }
-            }
-			String n = System.getProperty("line.separator");
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddBookWindow.this);
-				rules.applyRules(AddBookWindow.this);
+            } else {
+				JOptionPane.showMessageDialog(AddBookWindow.this, "Please, ar least choose one author");
+			}
+
+			if(i.isEmpty() || t.isEmpty()){
+				JOptionPane.showMessageDialog(AddBookWindow.this, "All fields must be non-empty");
+			} else if(i.length() != 8){
+				JOptionPane.showMessageDialog(AddBookWindow.this, "ISBN must be 7 digits.");
+			} else {
+				String n = System.getProperty("line.separator");
 				String output = i + n + t + n + m + n;
 				System.out.println(output);
 			
@@ -192,9 +197,57 @@ public class AddBookWindow extends JFrame implements LibWindow
 				
 				isbn.setText(null);
 				title.setText(null);
-			} catch (RuleException e){
-				JOptionPane.showMessageDialog(AddBookWindow.this, e.getMessage());
+				countField.setText(null);
 			}
+		// 	try {
+		// 		RuleSet rules = RuleSetFactory.getRuleSet(AddBookWindow.this);
+		// 		rules.applyRules(AddBookWindow.this);
+		// 		String output = i + n + t + n + m + n;
+		// 		System.out.println(output);
+			
+        //     	if (author_list!=null){
+        //         	for (Author author: author_list.getSelectedValuesList()){
+        //         		authors.add(author);
+        //         	}
+        //     	}
+		// 		System.out.println("MULTIPLE:"+authors);
+		// 		Book book = da.getBookByIsbn(i);
+		// 		boolean isfoundBook = false;
+		// 		if (book!=null){
+		// 			System.out.println("FOOUND:"+book);
+		// 			isfoundBook = true; 
+		// 			book.updateBook(i, t, m, authors);
+		// 		}else{
+		// 			book = new Book(i, t, m, authors);
+		// 		}
+        //     	System.out.println("BOOOK:"+book);
+		// 		int len = Integer.parseInt(countField.getValue().toString());
+		// 		for (int ii=1; ii<len; ii++){
+		// 			book.addCopy();
+		// 		}
+            	
+		// 		// List<Book> book_ids = ci.allBookObj();
+		// 		// AllBookIdsWindow.AddRowToJTable(new Object[]{
+		// 		// 	book_ids.size(),
+		// 		// 	book.getIsbn(),
+		// 		// 	book.getTitle(),
+		// 		// 	book.getAuthorsName(),
+		// 		// 	book.getMaxCheckoutLength(),
+		//  		// });
+        //     	// clear
+		// 		if (isfoundBook){
+		// 			da.updateBook(book);
+		// 			JOptionPane.showMessageDialog(this, "This book UPDATED: "+book);
+		// 		}else{
+		// 			da.saveNewBook(book);
+		// 			JOptionPane.showMessageDialog(this, "This book ADDED: "+book);
+		// 		}
+				
+		// 		isbn.setText(null);
+		// 		title.setText(null);
+		// 	} catch (RuleException e){
+		// 		JOptionPane.showMessageDialog(AddBookWindow.this, e.getMessage());
+		// 	}
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));

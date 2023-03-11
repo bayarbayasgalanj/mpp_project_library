@@ -125,11 +125,13 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 			// String addr = address.getText();
             String bi = bio.getText();
 			String n = System.getProperty("line.separator");
-            
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddAuthorWindow.this);
-				rules.applyRules(AddAuthorWindow.this);
-				String output = fName + n + lName + n + phone + n + bi;
+
+			if(fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || bi.isEmpty()){
+				JOptionPane.showMessageDialog(AddAuthorWindow.this, "All fields must be non empty");
+			} else if(phone.length() != 10 || Integer.parseInt(phone) <= 0){
+				JOptionPane.showMessageDialog(AddAuthorWindow.this, "Telephone must be numeric or digits must be 10");
+			} else {
+
 				System.out.println("------Add author------\n" + "Firstname: " + fName + " Lastname: " + lName + " Telephone: " + phone + " Bio: " + bi);
 				Author author = new Author(fName, lName, phone, null, bi);
 				DataAccess da = new DataAccessFacade();
@@ -140,9 +142,24 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 				telephone.setText(null);
 				// address.setText(null);
             	bio.setText(null);
-			} catch(RuleException e){
-				JOptionPane.showMessageDialog(AddAuthorWindow.this, e.getMessage());
 			}
+			// try {
+			// 	RuleSet rules = RuleSetFactory.getRuleSet(AddAuthorWindow.this);
+			// 	rules.applyRules(AddAuthorWindow.this);
+			// 	String output = fName + n + lName + n + phone + n + bi;
+			// 	System.out.println("------Add author------\n" + "Firstname: " + fName + " Lastname: " + lName + " Telephone: " + phone + " Bio: " + bi);
+			// 	Author author = new Author(fName, lName, phone, null, bi);
+			// 	DataAccess da = new DataAccessFacade();
+            // 	da.saveNewAuthor(author);
+            // 	// clear
+			// 	firstName.setText(null);
+			// 	lastName.setText(null);
+			// 	telephone.setText(null);
+			// 	// address.setText(null);
+            // 	bio.setText(null);
+			// } catch(RuleException e){
+			// 	JOptionPane.showMessageDialog(AddAuthorWindow.this, e.getMessage());
+			// }
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));

@@ -105,12 +105,13 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 			String city= cityField.getText();
 			String state = stateField.getText();
             String zip = zipField.getText();
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddAddressWindow.this);
-				rules.applyRules(AddAddressWindow.this);
-				String output = street + ", " + city + ", " + state + ", " + zip;
+
+			if(street.isEmpty() || city.isEmpty() || state.isEmpty() || zip.isEmpty()){
+				JOptionPane.showMessageDialog(AddAddressWindow.this, "All fields must be non empty");
+			} else if(zip.length() != 5 || Integer.parseInt(zip) <= 0){
+				JOptionPane.showMessageDialog(AddAddressWindow.this, "Zip must be numeric or digits must be 5");
+			} else {
 				System.out.println("------Add address------\n" + "Street: " + street + " City: " + city + " State: " + state + " zip: " + zip);
-				
 				Address addr = new Address(street, city, state, zip);
 				DataAccess da = new DataAccessFacade();
 				da.saveNewAddress(addr);
@@ -119,10 +120,29 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 				cityField.setText(null);
 				stateField.setText(null);
 				zipField.setText(null);
-			} catch (RuleException e){
-				JOptionPane.showMessageDialog(AddAddressWindow.this, e.getMessage());
 			}
+			// try {
+			// 	if(street.isEmpty() || city.isEmpty() || state.isEmpty() || zip.isEmpty()){
+			// 		throw new RuleException("All fields must be non empty");
+			// 	}
+			// 	RuleSet rules = RuleSetFactory.getRuleSet(AddAddressWindow.this);
+			// 	rules.applyRules(AddAddressWindow.this);
+			// 	String output = street + ", " + city + ", " + state + ", " + zip;
+			// 	System.out.println("------Add address------\n" + "Street: " + street + " City: " + city + " State: " + state + " zip: " + zip);
+				
+			// 	Address addr = new Address(street, city, state, zip);
+			// 	DataAccess da = new DataAccessFacade();
+			// 	da.saveNewAddress(addr);
+			// 	// clear
+			// 	streetField.setText(null);
+			// 	cityField.setText(null);
+			// 	stateField.setText(null);
+			// 	zipField.setText(null);
+			// } catch (RuleException e){
+			// 	JOptionPane.showMessageDialog(AddAddressWindow.this, e.getMessage());
+			// }
 	    });
+
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);

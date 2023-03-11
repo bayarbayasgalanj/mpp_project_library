@@ -122,9 +122,12 @@ public class AddMemberWindow extends JFrame implements LibWindow
 			System.out.println("--------"+addr);
 			String memId = memberId.getText();
             String n = System.getProperty("line.separator");
-			try {
-				RuleSet rules = RuleSetFactory.getRuleSet(AddMemberWindow.this);
-				rules.applyRules(AddMemberWindow.this);
+
+			if(fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || memId.isEmpty()){
+				JOptionPane.showMessageDialog(AddMemberWindow.this, "All fields must be non-empty");
+			} else if(phone.length() != 10){
+				JOptionPane.showMessageDialog(AddMemberWindow.this, "Telephone must be 10 digits.");
+			} else {
 				String output = fName + n + lName + n + phone + n + addr + n + memId;
 				System.out.println(output);
 				
@@ -149,9 +152,37 @@ public class AddMemberWindow extends JFrame implements LibWindow
 				}else{
 					JOptionPane.showMessageDialog(this, "This member ADDED: "+ member);
 				}
-			} catch (RuleException e){
-				JOptionPane.showMessageDialog(AddMemberWindow.this, e.getMessage());
 			}
+			// try {
+			// 	RuleSet rules = RuleSetFactory.getRuleSet(AddMemberWindow.this);
+			// 	rules.applyRules(AddMemberWindow.this);
+			// 	String output = fName + n + lName + n + phone + n + addr + n + memId;
+			// 	System.out.println(output);
+				
+			// 	LibraryMember member = da.getMemberById(memId);
+			// 	boolean bl = false;
+			// 	if (member!=null){
+			// 		bl = true;
+			// 		member.updateMember(memId, fName, lName, phone, addr);
+			// 		da.updateMember(member);
+			// 	}else{
+			// 		member = new LibraryMember(memId, fName, lName, phone, addr);
+			// 		da.saveNewMember(member);
+			// 	}
+			// 	// clear
+			// 	firstName.setText(null);
+			// 	lastName.setText(null);
+			// 	telephone.setText(null);
+			// 	// address.setText(null);
+			// 	memberId.setText(null);
+			// 	if (bl){
+			// 		JOptionPane.showMessageDialog(this, "This member UDPATED: "+ member);
+			// 	}else{
+			// 		JOptionPane.showMessageDialog(this, "This member ADDED: "+ member);
+			// 	}
+			// } catch (RuleException e){
+			// 	JOptionPane.showMessageDialog(AddMemberWindow.this, e.getMessage());
+			// }
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
