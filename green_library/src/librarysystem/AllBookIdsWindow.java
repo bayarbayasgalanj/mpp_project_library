@@ -29,7 +29,8 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private AllBookIdsWindow() {}
 	
 	public void init() {
-		model = new DefaultTableModel(new String[] { "№","ISBN","Title","Authors", "Max Checkout Length" },0);
+		// model = new DefaultTableModel(new String[] { "№","ISBN","Title","Authors", "Max Checkout Length" },0);
+		model.setRowCount(0);
 		JPanel mainPanel;
 		JPanel topPanel;
 		JPanel middlePanel;
