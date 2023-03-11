@@ -109,7 +109,7 @@ public class AddAddressWindow extends JFrame implements LibWindow {
 				RuleSet rules = RuleSetFactory.getRuleSet(AddAddressWindow.this);
 				rules.applyRules(AddAddressWindow.this);
 				String output = street + ", " + city + ", " + state + ", " + zip;
-				System.out.println(output);
+				System.out.println("------Add address------\n" + "Street: " + street + " City: " + city + " State: " + state + " zip: " + zip);
 				
 				Address addr = new Address(street, city, state, zip);
 				DataAccess da = new DataAccessFacade();
