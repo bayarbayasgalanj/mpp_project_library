@@ -30,6 +30,17 @@ final public class Book implements Serializable {
 		copies = new BookCopy[]{new BookCopy(this, 1, true)};	
 	}
 	
+	public void updateBook(String isbn, String title, int maxCheckoutLength, List<Author> aus) {
+		this.isbn = isbn;
+		this.title = title;
+		this.maxCheckoutLength = maxCheckoutLength;
+		if (aus!=null){
+			this.authors = Collections.unmodifiableList(aus);
+		}else{
+			this.authors = new ArrayList<>();
+		}
+	}
+
 	public void updateCopies(BookCopy copy) {
 		for(int i = 0; i < copies.length; ++i) {
 			BookCopy c = copies[i];

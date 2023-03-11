@@ -158,15 +158,22 @@ public class AddBookWindow extends JFrame implements LibWindow
                 	}
             	}
 				System.out.println("MULTIPLE:"+authors);
-				Book book = new Book(i, t, m, authors);
+				Book book = da.getBookByIsbn(i);
+				boolean isfoundBook = false;
+				if (book!=null){
+					System.out.println("FOOUND:"+book);
+					isfoundBook = true; 
+					book.updateBook(i, t, m, authors);
+				}else{
+					book = new Book(i, t, m, authors);
+				}
             	System.out.println("BOOOK:"+book);
 				int len = Integer.parseInt(countField.getValue().toString());
 				for (int ii=1; ii<len; ii++){
 					book.addCopy();
 				}
-            	da.saveNewBook(book);
-
-				List<Book> book_ids = ci.allBookObj();
+            	
+				// List<Book> book_ids = ci.allBookObj();
 				// AllBookIdsWindow.AddRowToJTable(new Object[]{
 				// 	book_ids.size(),
 				// 	book.getIsbn(),
@@ -175,6 +182,14 @@ public class AddBookWindow extends JFrame implements LibWindow
 				// 	book.getMaxCheckoutLength(),
 		 		// });
             	// clear
+				if (isfoundBook){
+					da.updateBook(book);
+					JOptionPane.showMessageDialog(this, "This book UPDATED: "+book);
+				}else{
+					da.saveNewBook(book);
+					JOptionPane.showMessageDialog(this, "This book ADDED: "+book);
+				}
+				
 				isbn.setText(null);
 				title.setText(null);
 			} catch (RuleException e){
