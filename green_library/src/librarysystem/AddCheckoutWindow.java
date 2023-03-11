@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -70,6 +73,11 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		JComboBox<String> rentType = new JComboBox<String>();
 		JTextField memberId = new JTextField();
 		JTextField bookIsbn = new JTextField();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		JFormattedTextField txtDate = new JFormattedTextField(df);
+		String mmm = ""+LocalDate.now().getMonthValue();
+		if (LocalDate.now().getMonthValue()<9) mmm="0"+mmm;
+		txtDate.setText(mmm+"/"+LocalDate.now().getDayOfMonth()+"/"+LocalDate.now().getYear());
         rentType.addItem("7");
 		rentType.addItem("21");
 		
@@ -94,8 +102,12 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		// rightPanel.add(rentType);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
 		leftPanel.add(new JLabel("Member ID"));
+		leftPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		leftPanel.add(new JLabel("Now Date"));
 		leftPanel.add(Box.createRigidArea(new Dimension(0,32)));
 		rightPanel.add(memberId);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		rightPanel.add(txtDate);
 		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
 		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
@@ -126,7 +138,10 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 			} else {
 				Book bName = ci.getBook(bookIsbn.getText());
 				LibraryMember mName = ci.getMember(memberId.getText());
-				LocalDate myObj = LocalDate.now();
+				// LocalDate myObj = LocalDate.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+				LocalDate myObj = LocalDate.parse(txtDate.getText().toString(),formatter);
+				System.out.println(myObj);
 				// String rName = rentType.getSelectedItem().toString();
 				model.addRow(new Object[]{ bName, mName,myObj.plusDays(bName.getMaxCheckoutLength())});
 				bookIsbn.setText(null);
@@ -157,6 +172,7 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 				}else{
 					bc.changeAvailability();
 					DataAccess da = new DataAccessFacade();
+					
 					System.out.println(bc+" " +bc.isAvailable());
 					CheckoutRecord oLine = new CheckoutRecord(oNumber,myMember, bc, myDate);
 					// CR.addOrderItems(oLine);

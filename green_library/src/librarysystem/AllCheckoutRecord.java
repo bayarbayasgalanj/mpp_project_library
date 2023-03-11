@@ -58,7 +58,7 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
 		// List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
 		// List<CheckoutRecordItem> crItems = CheckoutRecord.INSTANCE.getItemIds();
 		List<CheckoutRecord> ids = ci.allCheckoutRecordObj();
-		
+		System.out.println("CHECK LEN"+ids.size());
 		JTable bookTable = new JTable(){
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 			   return false;
