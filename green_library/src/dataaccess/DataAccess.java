@@ -16,6 +16,8 @@ public interface DataAccess {
 	public void saveNewBookCopy(BookCopy cop);
 	public void updateBookCopy(BookCopy cop);
 	public void updateBook(Book book);
+	public LibraryMember getMemberById(String id);
+	public void updateMember(LibraryMember member);
 	public void saveNewBook(Book book);
 	public HashMap<String,User> readUserMap();
 	public HashMap<String, LibraryMember> readMemberMap();

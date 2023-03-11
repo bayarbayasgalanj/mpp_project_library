@@ -21,4 +21,12 @@ final public class LibraryMember extends Person implements Serializable {
 	}
 
 	private static final long serialVersionUID = -2226197306790714013L;
+
+    public void updateMember(String memberId, String fname, String lname, String tel,Address add) {
+		this.setFirstName(fname);
+		this.setLastName(lname);
+		this.setTelephone(tel);
+		this.setAddress(add);
+		this.memberId = memberId;
+    }
 }

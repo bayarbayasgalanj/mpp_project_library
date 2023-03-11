@@ -127,15 +127,28 @@ public class AddMemberWindow extends JFrame implements LibWindow
 				rules.applyRules(AddMemberWindow.this);
 				String output = fName + n + lName + n + phone + n + addr + n + memId;
 				System.out.println(output);
-				LibraryMember member = new LibraryMember(memId, fName, lName, phone, addr);
 				
-				da.saveNewMember(member);
+				LibraryMember member = da.getMemberById(memId);
+				boolean bl = false;
+				if (member!=null){
+					bl = true;
+					member.updateMember(memId, fName, lName, phone, addr);
+					da.updateMember(member);
+				}else{
+					member = new LibraryMember(memId, fName, lName, phone, addr);
+					da.saveNewMember(member);
+				}
 				// clear
 				firstName.setText(null);
 				lastName.setText(null);
 				telephone.setText(null);
 				// address.setText(null);
 				memberId.setText(null);
+				if (bl){
+					JOptionPane.showMessageDialog(this, "This member UDPATED: "+ member);
+				}else{
+					JOptionPane.showMessageDialog(this, "This member ADDED: "+ member);
+				}
 			} catch (RuleException e){
 				JOptionPane.showMessageDialog(AddMemberWindow.this, e.getMessage());
 			}
