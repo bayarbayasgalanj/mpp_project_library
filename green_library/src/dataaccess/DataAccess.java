@@ -20,6 +20,7 @@ public interface DataAccess {
 	public void saveNewAddress(Address addr); 
 	public void removeAddress(String addr_key); 
 	public String getAddressByKey(String addr);
+	public Book getBookByIsbn(String isbn);
 	public void saveNewAuthor(Author author); 
 	public void removeAuthor(String addr_key); 
 	public String getAuthorByKey(String addr); 

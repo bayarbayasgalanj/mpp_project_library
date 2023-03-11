@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JFrame;
@@ -24,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
 import business.*;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
 
 public class BookCopyWindow extends JFrame implements LibWindow {
     public static final BookCopyWindow INSTANCE = new BookCopyWindow();
@@ -62,6 +65,8 @@ public class BookCopyWindow extends JFrame implements LibWindow {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		
+		JTextField isbnF = new JTextField(10);
+
         JComboBox<Book> book_list = new JComboBox<Book>();
         List<Book> ids = ci.allBookObj();
         for(Book s: ids) {
@@ -80,16 +85,23 @@ public class BookCopyWindow extends JFrame implements LibWindow {
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField countField = new JFormattedTextField(formatter);
         // countField.setText("1");
-        leftPanel.add(checkoutLabel);
+        
+		leftPanel.add(new JLabel("Book ISBN"));
 		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
         leftPanel.add(countLabel);
 		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
+		leftPanel.add(checkoutLabel);
+		leftPanel.add(Box.createRigidArea(new Dimension(0,12)));
 
-		rightPanel.add(book_list);
-		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
-        rightPanel.add(countField);
-		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
 		
+		
+        rightPanel.add(isbnF);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		rightPanel.add(countField);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
+		rightPanel.add(book_list);
+		book_list.setVisible(false);
+		rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
 		middlePanel.add(leftPanel);
 		middlePanel.add(rightPanel);
 		outerMiddle.add(middlePanel, BorderLayout.NORTH);
@@ -98,14 +110,37 @@ public class BookCopyWindow extends JFrame implements LibWindow {
 		JButton addBookButton = new JButton("Copy a Book");
         addBookButton.addActionListener(evt -> {
 			Book oBook = (Book)book_list.getSelectedItem();
-            int len = Integer.parseInt(countField.getValue().toString());
-            for (int i=1; i<=len; i++){
-                oBook.addCopy();
-            }
+			DataAccess da = new DataAccessFacade();
+			if (countField.getValue()==null){
+				JOptionPane.showMessageDialog(this,"Copy count is null ");
+			}
+			Book okBook = da.getBookByIsbn(isbnF.getText());
+			if(okBook!=null){
+				int len = Integer.parseInt(countField.getValue().toString());
+				for (int i=1; i<=len; i++){
+					oBook.addCopy();
+				}
+				JOptionPane.showMessageDialog(this,"Book copied "+isbnF.getText()+" "+len+" times");
+			}else{
+				JOptionPane.showMessageDialog(this,"Book not found "+isbnF.getText());
+			}
+	    });
+		JButton findBookButton = new JButton("Find Book");
+        findBookButton.addActionListener(evt -> {
+			DataAccess da = new DataAccessFacade();
+			Book okBook = da.getBookByIsbn(isbnF.getText());
+			if(okBook!=null){
+				book_list.setSelectedItem(okBook);
+				JOptionPane.showMessageDialog(this,"Book found "+isbnF.getText());
+			}else{
+				book_list.setVisible(false);
+				JOptionPane.showMessageDialog(this,"Book not found "+isbnF.getText());
+			}
 	    });
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);
+		addBookButtonPanel.add(findBookButton);
 		outerMiddle.add(addBookButtonPanel, BorderLayout.CENTER);
 		
 	}

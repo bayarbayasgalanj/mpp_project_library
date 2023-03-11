@@ -102,6 +102,15 @@ public class DataAccessFacade implements DataAccess {
 		addrs.remove(addr_key);
 		saveToStorage(StorageType.ADDRESS, addrs);
 	}
+	public Book getBookByIsbn(String isbn){
+		HashMap<String, Book> books = readBooksMap();
+		for (Map.Entry<String, Book> entry : books.entrySet()) {
+			if (entry.getValue().getIsbn().equals(isbn)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
 	public String getAddressByKey(String addr){
 		HashMap<String, Address> addrs = readAddressMap();
 		for (Map.Entry<String, Address> entry : addrs.entrySet()) {
