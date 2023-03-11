@@ -130,7 +130,7 @@ public class AddAuthorWindow extends JFrame implements LibWindow
 				RuleSet rules = RuleSetFactory.getRuleSet(AddAuthorWindow.this);
 				rules.applyRules(AddAuthorWindow.this);
 				String output = fName + n + lName + n + phone + n + bi;
-				System.out.println(output);
+				System.out.println("------Add author------\n" + "Firstname: " + fName + " Lastname: " + lName + " Telephone: " + phone + " Bio: " + bi);
 				Author author = new Author(fName, lName, phone, null, bi);
 				DataAccess da = new DataAccessFacade();
             	da.saveNewAuthor(author);

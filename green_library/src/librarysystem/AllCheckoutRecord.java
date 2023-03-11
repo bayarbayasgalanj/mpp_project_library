@@ -115,6 +115,10 @@ public class AllCheckoutRecord extends JFrame implements LibWindow {
                 model.setRowCount(0);
                 for (CheckoutRecord cri : uRecords) {
                     model.addRow(new Object[]{ cri.getBook(), cri.getMember(), cri.getDueDate()});
+					System.out.println("-----------------------Checkout Record-----------------\n" 
+					+ "Book information: " + cri.getBook()
+					+ "\nMember information: " + cri.getMember()
+					+ "\nDate: " + cri.getDueDate());
                 }
             }
 		});
