@@ -117,7 +117,7 @@ public class BookCopyWindow extends JFrame implements LibWindow {
 			Book okBook = da.getBookByIsbn(isbnF.getText());
 			if(okBook!=null){
 				int len = Integer.parseInt(countField.getValue().toString());
-				for (int i=1; i<=len; i++){
+				for (int i=1; i<len; i++){
 					oBook.addCopy();
 				}
 				JOptionPane.showMessageDialog(this,"Book copied "+isbnF.getText()+" "+len+" times");
