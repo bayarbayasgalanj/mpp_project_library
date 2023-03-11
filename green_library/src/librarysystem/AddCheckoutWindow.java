@@ -181,7 +181,7 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 						// DataAccess da = new DataAccessFacade();
 						da.updateBookCopy(bc);
 						// System.out.println(bc+" " +bc.isAvailable());
-						CheckoutRecord oLine = new CheckoutRecord(oNumber,myMember, bc, myDate);
+						CheckoutRecord oLine = new CheckoutRecord(oNumber+""+i,myMember, bc, myDate);
 						da.updateBookCopy(bc);
 						// CR.addOrderItems(oLine);
 						// List<CheckoutRecord> idss = ci.allCheckoutRecordObj();
