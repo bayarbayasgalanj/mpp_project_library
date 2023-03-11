@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -105,7 +106,11 @@ public class AddCheckoutWindow extends JFrame implements LibWindow {
 		inputOrder.addActionListener(evt -> {
 			Book bName = (Book) bookList.getSelectedItem();
 			String rName = (String) rentType.getSelectedItem().toString();
-			model.addRow(new Object[]{ bName, rName});
+			if(bName.getMaxCheckoutLength() < Integer.parseInt(rName)){
+				JOptionPane.showMessageDialog(this,"This book: "+bName+" cannot rent this day "+rName+"!!");
+			}else{
+				model.addRow(new Object[]{ bName, rName});
+			}
 		});
 		rightPanel.add(inputOrder);
 		topPanel.add(leftPanel);
