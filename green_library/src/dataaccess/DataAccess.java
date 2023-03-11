@@ -31,4 +31,5 @@ public interface DataAccess {
 	public void saveNewCheckoutRecord(CheckoutRecord record);
 	List<CheckoutRecord> readUserRecords(LibraryMember member);
 	public List<CheckoutRecord> readBookCopyRecords();
+	public void saveAndUpdateBook(BookCopy bookCopy);
 }
